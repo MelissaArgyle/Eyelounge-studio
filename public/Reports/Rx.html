@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Letter</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #4b4b4b; /* Dark grey background */
+    margin: 0;
+    padding: 0;
+}
+.container {
+    background-color: #f6f6f9; /* Light purple/grayish background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 700px; /* Set a fixed width for the container */
+    margin: 50px auto; /* Center the container */
+}
+h1, h2 {
+    color: #1a1a66; /* Dark navy blue */
+}
+h1 {
+    font-size: 22pt;
+}
+.dear-line {
+    margin-top:50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16pt;
+    color: #1a1a66; /* Dark navy blue */
+}
+.dear-line input {
+    font-size: 16pt;
+    font-family: Arial, sans-serif;
+    color: #1a1a66; /* Dark navy blue */
+    border: none;
+    outline: none;
+    width: auto; /* Adjust the width as needed */
+}
+.inline-edit {
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    color: #000000; 
+    border: none;
+    outline: none;
+    display: inline;
+    padding: 0;
+    width: auto; /* Adjust the width as needed */
+}
+table {
+    width: 100%; /* Make the table fit the container */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+table, th, td {
+    border: 1px solid #1a1a66; /* Dark navy blue */
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #1a1a66; /* Dark navy blue */
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray for even rows */
+}
+td input {
+    width: 100%; /* Make input fields fill the entire cell */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+.footer {
+    margin-top: 20px;
+    text-align: center;
+    color: #777;
+}
+.logo {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 100px;
+    margin-bottom: 22px;
+}
+.button-24 {
+    background-color: transparent;
+    background-image: linear-gradient(#11196e, #090953);
+    border: 0 solid #f2f2f2;
+    border-radius: 9999px;
+    box-shadow: rgba(82, 82, 82, 0.703) 0 4px 11px 0, rgba(72, 72, 72, 0.725) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Hind, system-ui, BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-weight: 600;
+    margin: 4px;
+    padding: 16px 24px;
+    text-align: center;
+    text-decoration: inherit;
+    text-wrap: nowrap;
+    transition: all .2s ease-out;
+    transition-behavior: normal;
+    white-space-collapse: collapse;
+    line-height: 1.15;
+}
+@media (min-width: 576px) {
+    .button-24 {
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+}
+.button-24:hover {
+    box-shadow: rgba(219, 221, 224, 0.629) 0 8px 22px 0, rgba(93, 100, 148, .2) 0 4px 6px 0;
+}
+.button-24:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+}
+/* Hide buttons when printing or saving as PDF */
+@media print {
+    .buttons {
+        display: none;
+    }
+}
+
+    </style>
+    <!-- Include jsPDF and html2canvas libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <img src="Logo.png" alt="Clinic Logo" class="logo">
+        <div class="dear-line">
+            <span>Dear</span>
+            <input type="text" id="patientName" class="patient-name-input" placeholder="Patient’s Name">
+        </div>
+        <p style="color: transparent;">sdf</p>
+
+        <p>Thank you for visiting <span id="clinicName" class="inline-edit"></span> for your recent eye examination. We appreciate the trust you have placed in us for your eye care needs.</p>
+        <p>Enclosed with this letter, you will find your detailed eye test report, including your spectacle prescription. Please review the information carefully:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sphere</th>
+                    <th>Cylinder</th>
+                    <th>Axis</th>
+                    <th>PD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" id="sphereOD" placeholder="Sphere OD"></td>
+                    <td><input type="text" id="cylinderOD" placeholder="Cylinder OD"></td>
+                    <td><input type="text" id="axisOD" placeholder="Axis OD"></td>
+                    <td><input type="text" id="pdOD" placeholder="PD OD"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="sphereOS" placeholder="Sphere OS"></td>
+                    <td><input type="text" id="cylinderOS" placeholder="Cylinder OS"></td>
+                    <td><input type="text" id="axisOS" placeholder="Axis OS"></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>If you have any questions or need further assistance regarding your prescription or eye health, please do not hesitate to contact us. Our team is here to help you with any concerns you may have.</p>
+        <p>Thank you once again for choosing <span id="clinicName2" class="inline-edit"></span>. We look forward to serving you in the future and helping you maintain optimal eye health.</p>
+        <p style="color: transparent;">sdf</p>
+        <p>Sincerely,</p>
+        <p><span id="yourName" class="inline-edit"></span><br>
+        <span id="yourTitle" class="inline-edit"></span><br>
+        <span id="clinicName3" class="inline-edit"></span></p>
+        <div class="buttons text-center">
+            <button class="button-24" onclick="printPage()">Print</button>
+            <button class="button-24" onclick="saveToPdf()">Save as PDF</button>
+            <button class="button-24" onclick="goBack()">Back</button>
+        </div>
+    </div>
+    <div class="footer">
+        &copy; 2024 <span id="footerClinicName">Your Clinic’s Name</span>. All rights reserved.
+    </div>
+
+    <script>
+        function printPage() {
+            window.print();
+        }
+
+        async function saveToPdf() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const container = document.querySelector('.container');
+            html2canvas(container).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                doc.addImage(imgData, 'PNG', 10, 10, 190, 0);
+                doc.save('Patient_Letter.pdf');
+            }).catch(error => {
+                console.error('Error generating PDF:', error);
+                alert('Failed to generate PDF.');
+            });
+        }
+
+        function goBack() {
+            localStorage.setItem('clickPatientWizard', 'true');
+            window.location.href = '../Patient/patient.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const selectedTestCard = JSON.parse(localStorage.getItem('selectedTestCard'));
+            const patientName = localStorage.getItem('patientName');
+            const patientSurname = localStorage.getItem('patientSurname');
+
+            if (user && selectedTestCard) {
+                document.getElementById('patientName').value = `${patientName} ${patientSurname}`;
+                document.getElementById('sphereOD').value = selectedTestCard.spectacles_OD_sphere;
+                document.getElementById('cylinderOD').value = selectedTestCard.spectacles_OD_cylinder;
+                document.getElementById('axisOD').value = selectedTestCard.spectacles_OD_axis;
+                document.getElementById('pdOD').value = selectedTestCard.pd;
+                document.getElementById('sphereOS').value = selectedTestCard.spectacles_OS_sphere;
+                document.getElementById('cylinderOS').value = selectedTestCard.spectacles_OS_cylinder;
+                document.getElementById('axisOS').value = selectedTestCard.spectacles_OS_axis;
+
+                document.getElementById('clinicName').textContent = user.practiceName;
+                document.getElementById('clinicName2').textContent = user.practiceName;
+                document.getElementById('clinicName3').textContent = user.practiceName;
+                document.getElementById('footerClinicName').textContent = user.practiceName;
+
+                document.getElementById('yourName').textContent = `${user.name} ${user.surname}`;
+                document.getElementById('yourTitle').textContent = user.title; // Assuming title is stored in user object
+            }
+        });
+    </script>
+</body>
+</html>

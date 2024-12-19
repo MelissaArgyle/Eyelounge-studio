@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Vision Test</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="CV.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="../Cursor/cursor.js"></script>
+    <style>
+        .center-image {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .top-padding {
+            padding-top: 65px; /* Adjust the value as needed */
+        }
+        .r-click {
+            display: none;
+            position: absolute;
+            background-color: #e0e0e0; /* Light gray background */
+            border: 1px solid #b0b0b0; /* Darker gray border */
+            z-index: 1000;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem; /* Smaller font size */
+            border-radius: 5px;
+        }
+        .r-click button {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            background-color: #8bc34a; /* Light green background */
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .r-click button:hover {
+            background-color: #689f38; /* Darker green on hover */
+        }
+        .selected {
+            background-color: #4caf50 !important; /* Darker green for selected */
+        }
+        .checkbox {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body class="top-padding">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 text-center">
+                <img id="colorImage" src="images/image1.jpg" alt="Color Vision Test Image" class="img-fluid center-image">
+            </div>
+        </div>
+    </div>
+
+    <div id="r-click" class="r-click">
+        <button id="normal" onclick="selectOption('Normal color vision')">
+            <input type="checkbox" class="checkbox" id="normal-checkbox">
+            Normal color vision
+        </button>
+        <button id="red-green" onclick="selectOption('Red-green color deficiency')">
+            <input type="checkbox" class="checkbox" id="red-green-checkbox">
+            Red-green color deficiency
+        </button>
+    </div>
+    <div id="banner" class="banner">Colour Vision</div>
+    <div class="toolbar-container left-toolbar-container">
+        <div class="toolbar left-toolbar">
+            <button id="VA" aria-label="VA Chart" class="btn btn-light mb-2 border" onclick="navigateToFile('../VA Charts/VA CHARTS.html')">
+                <img src="../Icons/monitor.png" alt="VA Chart Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">VA Chart</div>
+            </button>
+            <button id="astigmatism" aria-label="Astigmatism" class="btn btn-light mb-2 border" onclick="navigateToFile('../Astigmatism/JCC.html')">
+                <img src="../Icons/medical.png" alt="Astigmatism Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Astigmatism</div>
+            </button>
+            <button id="duochrome" aria-label="Duochrome" class="btn btn-light mb-2 border" onclick="navigateToFile('../Duochrome/Butterfly.html')">
+                <img src="../Icons/right-arrow.png" alt="Duochrome Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Duochrome</div>
+            </button>
+            <button id="binoculartests" aria-label="Binocular Test" class="btn btn-light mb-2 border" onclick="navigateToFile('../Binocular Vision/W4D.html')">
+                <img src="../Icons/eye-test.png" alt="Binocular Test Icon" style="width: 50px; height: 50px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Binocular Test</div>
+            </button>
+            <button id="colourvision" aria-label="Colour Vision" class="btn btn-light mb-2 border" onclick="navigateToFile('../Colour Vision/CV.html')">
+                <img src="../Icons/color.png" alt="Colour Vision Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Colour Vision</div>
+            </button>
+            <button id="contrastsensitivity" aria-label="Contrast Sensitivity" class="btn btn-light mb-2 border" onclick="navigateToFile('../CS/CS.html')">
+                <img src="../Icons/contrast.png" alt="Contrast Sensitivity Icon" style="width: 30px; height: 30px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Contrast Sensitivity</div>
+            </button>            
+            <button id="fixationtargets" aria-label="Fixation Target" class="btn btn-light mb-2 border" onclick="navigateToFile('../Fixation target/FT.html')">
+                <img src="../Icons/image.png" alt="Fixation Target Icon" style="width: 35px; height: 35px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Fixation Target</div>
+            </button>  
+        </div>
+    </div>    
+    <div class="toolbar-container right-toolbar-container">
+        <div class="toolbar right-toolbar">
+        <div class="bottom-buttons">
+            <button class="btn btn-primary" onclick="changeImage(1)"><i class="material-icons">looks_one</i>
+                <div class="tooltip" style="right: 100%;">Image 1</div>
+            </button>
+            <button class="btn btn-primary" onclick="changeImage(2)"><i class="material-icons">looks_two</i>
+                <div class="tooltip" style="right: 100%;">Image 2</div>
+            </button>
+            <button class="btn btn-primary" onclick="changeImage(3)"><i class="material-icons">looks_3</i>
+                <div class="tooltip" style="right: 100%;">Image 3</div>
+            </button>
+            <button class="btn btn-primary" onclick="changeImage(4)"><i class="material-icons">looks_4</i>
+                <div class="tooltip" style="right: 100%;">Image 4</div>
+            </button>
+            <button class="btn btn-primary" onclick="changeImage(5)"><i class="material-icons">looks_5</i>
+                <div class="tooltip" style="right: 100%;">Image 5</div>
+            </button>
+            <button class="btn btn-primary" onclick="changeImage(6)"><i class="material-icons">looks_6</i>
+                <div class="tooltip" style="right: 100%;">Image 6</div>
+            </button>
+            <button class="btn btn-primary" onclick="changeImage(7)"><i class="material-icons">looks_6</i>
+                <div class="tooltip" style="right: 100%;">Image 7</div>
+            </button>
+            <button class="btn btn-primary" onclick="changeImage(8)"><i class="material-icons">looks_6</i>
+                <div class="tooltip" style="right: 100%;">Image 8</div>
+            </button>
+            <button class="btn btn-primary" onclick="changeImage(9)"><i class="material-icons">looks_6</i>
+                <div class="tooltip" style="right: 100%;">Image 9</div>
+            </button>
+            <button class="btn btn-primary" onclick="changeImage(10)"><i class="material-icons">looks_6</i>
+                <div class="tooltip" style="right: 100%;">Image 10</div>
+            </button>
+        </div>
+    </div>
+    </div>
+   <div class="toolbar-container bottom-toolbar-container">
+        <div class="toolbar bottom-toolbar">
+            <button id="education" aria-label="Education" class="btn btn-light mb-2 border" onclick="navigateToFile('../Education/education.html')">
+                <img src="../Icons/reading.png" alt="Education Icon" style="width: 35px; height: 35px; filter: invert(100%);">
+                <div class="bottom-tooltip">Education</div>
+            </button>
+            <button id="patient" aria-label="Patient" class="btn btn-light mb-2 border" onclick="navigateToFile('../Patient/patient.html')">
+                <img src="../Icons/medical-record.png" alt="Patient Icon" style="width: 35px; height: 35px; filter: invert(100%);">
+                <div class="bottom-tooltip">Patient</div>
+            </button>          
+            <button id="settings" aria-label="Settings" class="btn btn-light mb-2 border" onclick="navigateToFile('../Settings/settings.html')">
+                <img src="../Icons/control.png" alt="Settings Icon" style="width: 31px; height: 31px; filter: invert(100%);">
+                <div class="bottom-tooltip">Settings</div>
+            </button>
+            <button id="account" aria-label="Your Account" class="btn btn-light mb-2 border" onclick="navigateToFile('../Account/account.html')">
+                <img src="../Icons/man.png" alt="Your Account Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="bottom-tooltip">Your Account</div>
+            </button>            
+        </div>
+    </div>
+    </div>
+
+    <script src="CV.js"></script>
+</body>
+</html>

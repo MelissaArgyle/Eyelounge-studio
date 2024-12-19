@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Confirmation Letter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4b4b4b; /* Dark grey background */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #efeff1; /* Light purple/grayish background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(136, 130, 219, 0.842);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .logo img {
+            max-width: 150px;
+        }
+        h2 {
+            color: #1a1a66; /* Dark navy blue */
+            text-align: center;
+            margin-bottom:60px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #1a1a1a; /* Dark text */
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-group span {
+            display: inline-block;
+            padding: 4px;
+            margin: px 0;
+            font-size: 16px;
+            background-color: #f6f6f7; /* Light purple background */
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button-24 {
+            background-color: transparent;
+            background-image: linear-gradient(#11196e, #090953);
+            border: 0 solid #f2f2f2;
+            border-radius: 9999px;
+            box-shadow: rgba(82, 82, 82, 0.703) 0 4px 11px 0, rgba(72, 72, 72, 0.725) 0 1px 3px 0;
+            box-sizing: border-box;
+            color: #ffffff;
+            cursor: pointer;
+            display: inline-block;
+            font-family: Hind, system-ui, BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            font-weight: 600;
+            margin: 4px;
+            padding: 16px 24px;
+            text-align: center;
+            text-decoration: inherit;
+            text-wrap: nowrap;
+            transition: all .2s ease-out;
+            transition-behavior: normal;
+            white-space-collapse: collapse;
+            line-height: 1.15;
+        }
+
+        @media (min-width: 576px) {
+            .button-24 {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+        }
+
+        .button-24:after, .button-24:before, .div-flex-items-center-justify-center:after, .div-flex-items-center-justify-center:before, .span-flex-items-center-h-16-w-auto-mr-8-py-2-flex-grow-0-flex-shrink-0-fill-current:after, .span-flex-items-center-h-16-w-auto-mr-8-py-2-flex-grow-0-flex-shrink-0-fill-current:before, .svg-block-h-full:after, .svg-block-h-full:before {
+            border: 0 solid #24698f;
+            box-sizing: border-box;
+        }
+
+        .button-24:hover {
+            box-shadow: rgba(219, 221, 224, 0.629) 0 8px 22px 0, rgba(93, 100, 148, .2) 0 4px 6px 0;
+        }
+
+        .button-24:disabled {
+            cursor: not-allowed;
+            opacity: .5;
+        }
+
+        /* Hide buttons when printing or saving as PDF */
+        @media print {
+            .buttons {
+                display: none;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="Logo.png" alt="Logo">
+        </div>
+        <h2>Patient Confirmation Letter</h2>
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <span id="formattedDate"></span>
+        </div>
+        <p style="color: transparent;">sdf</p>
+        <p>To Whom It May Concern,</p>
+        <p>This letter is to confirm that <span id="patientName"></span> was present at our practice, <span id="clinicName"></span>, on <span id="appointmentDate"></span> for an eye examination.</p>
+        <p>If you require any further information, please do not hesitate to contact us.</p>
+        <p style="color: transparent;">sdf</p>
+
+        <p>Sincerely,</p>
+        <div class="form-group">
+            <span id="yourName"></span>
+        </div>
+        <div class="form-group">
+            <span id="practiceName"></span>
+        </div>
+        <div class="form-group">
+            <span id="contactDetails"></span>
+        </div>
+        <div class="form-group">
+            <span id="email"></span>
+        </div>
+        <div class="buttons">
+            <button type="button" class="button-24" onclick="saveToPdf()">Save as PDF</button>
+            <button type="button" class="button-24" onclick="window.print()">Print</button>
+            <button type="button" class="button-24" onclick="navigateBack()">Back</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch user details from localStorage
+            const user = JSON.parse(localStorage.getItem('user'));
+            console.log('Retrieved user from localStorage:', user); // Debugging: Check retrieved data
+            
+            if (user) {
+                const selectedTestCard = JSON.parse(localStorage.getItem('selectedTestCard'));
+                const patientName = localStorage.getItem('patientName');
+                const patientSurname = localStorage.getItem('patientSurname');
+    
+                // Automatically set today's date
+                const today = new Date();
+                const formattedDate = today.toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
+                document.getElementById('formattedDate').textContent = formattedDate;
+    
+                if (selectedTestCard && patientName && patientSurname && user.practiceName) {
+                    // Populate the report fields with the selected test card data
+                    document.getElementById('patientName').textContent = `${patientName} ${patientSurname}`;
+                    document.getElementById('appointmentDate').textContent = new Date(selectedTestCard.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
+                    document.getElementById('clinicName').textContent = user.practiceName;
+                    document.getElementById('yourName').textContent = `${user.name} ${user.surname}`;
+                    document.getElementById('practiceName').textContent = user.practiceName;
+                    document.getElementById('contactDetails').textContent = user.contactDetails;
+                    document.getElementById('email').textContent = user.email;
+                }
+            } else {
+                console.error('No user data found in localStorage');
+            }
+        });
+
+        // Function to navigate back to /Patient/patient.html and simulate clicking the Patient Wizard button
+        function navigateBack() {
+            // Set a flag in localStorage
+            localStorage.setItem('clickPatientWizard', 'true');
+
+            // Navigate to the target page
+            window.location.href = '../Patient/patient.html';
+        }
+
+        // Function to save the page content as PDF
+        async function saveToPdf() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Temporarily hide the buttons
+            document.querySelector('.buttons').style.display = 'none';
+
+            // Use html2canvas to capture the content of the container
+            const container = document.querySelector('.container');
+            html2canvas(container).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                doc.addImage(imgData, 'PNG', 10, 10, 190, 0);
+                doc.save('Patient_Confirmation_Letter.pdf');
+            }).catch(error => {
+                console.error('Error generating PDF:', error);
+                alert('Failed to generate PDF.');
+            }).finally(() => {
+                // Show the buttons again
+                document.querySelector('.buttons').style.display = 'flex';
+            });
+        }
+    </script>
+</body>
+</html>

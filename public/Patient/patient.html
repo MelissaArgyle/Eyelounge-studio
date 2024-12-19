@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Recording Cards</title>
+    <link rel="stylesheet" href="patient.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="toolbar custom-toolbar">
+            <button type="button" class="custom-button" id="newPatientBtn">New Patient</button>
+            <button type="button" class="custom-button" id="patientWizardBtn">Patient Wizard</button>
+            <button type="button" class="custom-button" id="writeReportBtn">Write Report</button>
+            <button type="button" class="custom-button" id="currentBtn">Current</button>
+            <button type="button" class="custom-button" id="backToChartBtn">Back to Chart</button>
+        </div>       
+        <div class="content custom-content">
+            <div id="newPatientForm" class="form-container custom-form-container">
+                <h2>New Patient</h2>
+                <form id="patientForm" action="http://localhost:3000/savePatient" method="post">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control custom-input" id="name" name="name" autocomplete="given-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="surname">Surname:</label>
+                        <input type="text" class="form-control custom-input" id="surname" name="surname" autocomplete="family-name">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="age">Age:</label>
+                            <input type="number" class="form-control custom-input" id="age" name="age" autocomplete="bday">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="gender">Gender:</label>
+                            <select class="form-control custom-input" id="gender" name="gender">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Contact Number:</label>
+                        <input type="tel" class="form-control custom-input" id="contact" name="contact" autocomplete="tel">
+                    </div>
+                    <div class="form-group">
+                        <label for="idNumber">ID Number:</label>
+                        <input type="text" class="form-control custom-input" id="idNumber" name="idNumber" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control custom-input" id="email" name="email" autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="button-24" id="saveBtn">Save</button>
+                        <button type="button" class="button-24" id="continueBtn">Save and continue to eye test</button>
+                    </div>
+                    <div id="saveMessage" class="alert alert-success custom-alert" style="display: none; margin-top: 10px;">
+                        Patient successfully saved, find in Patient Wizard.
+                    </div>
+                    <div id="validationMessage" class="alert alert-danger custom-alert" style="display: none; margin-top: 10px;">
+                        Please complete all sections of the form before saving
+                    </div>
+                </form>
+            </div>
+            <div id="patientWizard" class="form-container custom-form-container">
+                <h2>Patient Wizard</h2>
+                <div class="search-bar-container">
+                    <input type="search" class="search-bar" id="searchBar" placeholder="Search by Name, Surname, ID, or Contact" autocomplete="off">
+                    <button id="searchBtn" class="button-24"><i class="fas fa-search"></i></button>
+                    <button id="clearSearchBtn" class="button-24">Clear Search</button>
+                </div>
+                <div id="deleteMessage" class="alert alert-success custom-alert" style="display: none; margin-top: 10px;">Patient deleted successfully!</div>
+                <div id="notFoundMessage" class="alert alert-danger custom-alert" style="display: none; margin-top: 10px;">Patient does not exist</div>
+                <div id="patientSummary" class="mt-3"></div>
+                <button id="Createnewtest" class="button-24" style="display: none;">New recording card</button>
+                <div id="actionButtonsContainer" class="btn-group mt-2 custom-button" style="display: none;">
+                    <button id="previousTestCardBtn" class="button-24">Previous Test Card</button>
+                </div>
+                <div id="testCardDetails" class="mt-3 hidden"></div>
+            </div>
+            <div id="writeReport" class="form-container custom-form-container">
+                <h2>Choose report:</h2>
+                <div class="button-container">
+                    <button type="button" class="example_d" id="rxButton">Eyetest report</button>
+                    <button type="button" class="example_d" id="referralButton">Referral letter to Ophthalmologist</button>
+                    <button type="button" class="example_d" id="proofOfEyeTestBtn">Proof of eye test</button>
+                </div>
+            </div>            
+            <div id="currentForm" class="form-container custom-form-container">
+                <div class="header-container">
+                    <h2>Test Card</h2>
+                    <div id="patientNameContainer">
+                        <span id="patientNameDisplay" class="patient-name custom-patient-name"></span>
+                        <button id="clearPatientNameBtn" type="button" class="button-24">Clear Patient</button>
+                    </div>
+                </div>
+                <div id="successMessage" class="alert alert-success custom-alert" style="display: none; margin-bottom: 10px;">
+                    Patient Card successfully saved!
+                </div>
+                <form id="testCardForm">
+                    <div class="form-group">
+                        <textarea class="form-control custom-input" id="chiefComplaint" name="chiefComplaint" rows="2" placeholder="Chief Complaint" autocomplete="off"></textarea>
+                    </div>
+                    <div id="vaFields"></div>
+                    <div id="spectaclesFields"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="colorVision">Color Vision:</label>
+                            <input type="text" class="form-control custom-input" id="colorVision" name="colorVision" autocomplete="off">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="contrastSensitivity">Contrast Sensitivity:</label>
+                            <input type="text" class="form-control custom-input" id="contrastSensitivity" name="contrastSensitivity" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control custom-input" id="notes" name="notes" rows="3" placeholder="Enter notes here..." autocomplete="off"></textarea>
+                    </div>
+                    <div id="confirmMessage" class="alert alert-warning custom-alert" style="display: none; margin-bottom: 10px;">
+                        Are you sure you want to clear the Test Card?
+                        <div class="yes-no-buttons">
+                            <button id="confirmClearBtn" type="button">Yes</button>
+                            <button id="cancelClearBtn" type="button">No</button>
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <button id="continueToEyeTestBtn" type="button" class="button-24">Continue to eye test</button>
+                        <button id="clearBtn" type="button" class="button-24" onclick="clearTestCardLocalStorage()">Clear Values</button>
+                        <button id="saveRecordCardBtn" type="button" class="button-24">Save record card</button>
+                    </div>
+                </form>
+            </div>                               
+            <div id="patientDetails" class="form-container custom-form-container">
+                <h2>Patient Details</h2>
+                <div id="patientName"></div>
+                <div id="patientSurname"></div>
+                <div id="patientContact"></div>
+                <div id="patientEmail"></div>
+                <div id="patientAccount"></div> 
+                <button id="editBtn" type="button" class="btn btn-primary custom-button">Edit</button>
+                <button id="saveChangesBtn" type="button" class="btn btn-success custom-button" style="display: none;">Save Changes</button>
+            </div>            
+            <div id="popupMessage" class="popup-message alert alert-success custom-popup-message" style="display: none;">Test Card successfully saved!</div>
+            <div id="successMessage">Patient Card successfully saved!</div>        
+        </div>
+    </div>
+</div>       
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="patient.js"></script>                      
+<script>
+    // Function to delete a test card from the database
+async function deleteTestCard(patientId, testCardId) {
+    try {
+        const response = await fetch(`http://localhost:3000/deleteTestCard/${patientId}/${testCardId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            console.log('Test card deleted successfully.');
+            showPreviousTestCard(); // Refresh the list of test cards
+        } else {
+            throw new Error('Failed to delete test card.');
+        }
+    } catch (error) {
+        console.error('Error deleting test card:', error);
+        // Use an inline message or a custom modal instead of alert
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = 'Error deleting test card: ' + error.message;
+        messageDiv.style.color = 'red';
+        document.body.appendChild(messageDiv);
+    }
+}
+
+function toggleDropdown(event) {
+    event.stopPropagation();
+    const dropdownContent = event.target.nextElementSibling;
+    dropdownContent.classList.toggle('show');
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.create-report-btn')) {
+        const dropdowns = document.querySelectorAll('.dropdown-content');
+        dropdowns.forEach(dropdown => {
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        });
+    }
+};
+
+// Function to navigate to the report section
+function navigateToReport(buttonId, testCardId) {
+    // Fetch the test card data from the database
+    const patientId = localStorage.getItem('patientId');
+    fetch(`http://localhost:3000/getTestCards/${patientId}`)
+        .then(response => response.json())
+        .then(testCards => {
+            const selectedTestCard = testCards.find(card => card._id.$oid === testCardId || card._id === testCardId);
+            localStorage.setItem('selectedTestCard', JSON.stringify(selectedTestCard)); // Save selected test card to local storage
+
+            // Retrieve patient information
+            fetch(`http://localhost:3000/getPatientDetails/${patientId}`)
+                .then(response => response.json())
+                .then(patient => {
+                    localStorage.setItem('patientName', patient.name);
+                    localStorage.setItem('patientSurname', patient.surname);
+
+                    console.log(`Navigating to section: ${buttonId}`);
+                    document.getElementById(buttonId).click();
+                })
+                .catch(error => {
+                    console.error('Error fetching patient details:', error);
+                });
+        })
+        .catch(error => {
+            console.error('Error fetching test cards:', error);
+        });
+}
+
+// Ensure this function is included in the script section
+async function showPreviousTestCard() {
+    const testCardDetailsDiv = document.getElementById('testCardDetails');
+    if (!testCardDetailsDiv) {
+        console.error('Element testCardDetails not found.');
+        return;
+    }
+
+    const patientId = localStorage.getItem('patientId'); // Get patient ID from localStorage
+    if (!patientId) {
+        console.error('Error: patientId is not defined.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/getTestCards/${patientId}`);
+        const contentType = response.headers.get('content-type');
+
+        if (!response.ok || !contentType || !contentType.includes('application/json')) {
+            const errorText = await response.text();
+            console.error('Response was not JSON:', errorText);
+            throw new Error('Response was not JSON or Network response was not ok');
+        }
+
+        const patientTestCards = await response.json();
+        console.log('Retrieved patientTestCards from database:', patientTestCards); // Debug log
+
+        if (patientTestCards.length > 0) {
+            let testCardDetailsHtml = `<h3>Previous Test Card Details</h3>`;
+            patientTestCards.forEach(testCard => {
+                testCardDetailsHtml += `
+                    <div class="test-card" data-testcard-id="${testCard._id.$oid ? testCard._id.$oid : testCard._id}">
+                    <h4>Test Date: ${new Date(testCard.date).toLocaleDateString()}</h4>
+                    <p><strong>Chief Complaint:</strong> ${testCard.chiefComplaint}</p>
+                    <p><strong>PD:</strong> ${testCard.pd}</p>
+                    <p><strong>IOP:</strong> OD ${testCard.iop_OD} OS ${testCard.iop_OS}</p>
+                    <p><strong>Rx:</strong></p>
+                    <p>OD ${testCard.scRE}, ${testCard.spectacles_OD_sphere} / ${testCard.spectacles_OD_cylinder} x ${testCard.spectacles_OD_axis}, ${testCard.ccRE}${testCard.spectacles_OD_add ? `, Add +${testCard.spectacles_OD_add}` : ''}</p>
+                    <p>OS ${testCard.scLE}, ${testCard.spectacles_OS_sphere} / ${testCard.spectacles_OS_cylinder} x ${testCard.spectacles_OS_axis}, ${testCard.ccLE}${testCard.spectacles_OS_add ? `, Add +${testCard.spectacles_OS_add}` : ''}</p>
+                    <p><strong>Color Vision:</strong> ${testCard.colorVision}</p>
+                    <p><strong>Contrast Sensitivity:</strong> OD ${testCard.odValue}, OS ${testCard.osValue}</p>
+                    <p><strong>Notes:</strong> ${testCard.notes}</p>
+                    <button class="delete-btn" onclick="confirmDelete('${patientId}', '${testCard._id.$oid ? testCard._id.$oid : testCard._id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="create-report-btn button-24" onclick="toggleDropdown(event)">Create Report</button>
+                        <div class="dropdown-content">
+                            <button onclick="navigateToReport('rxButton', '${testCard._id.$oid ? testCard._id.$oid : testCard._id}')">Eye test report</button>
+                            <button onclick="navigateToReport('referralButton', '${testCard._id.$oid ? testCard._id.$oid : testCard._id}')">Refer to Ophthalmologist</button>
+                            <button onclick="navigateToReport('proofOfEyeTestBtn', '${testCard._id.$oid ? testCard._id.$oid : testCard._id}')">Proof of eye test</button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+            testCardDetailsDiv.innerHTML = testCardDetailsHtml;
+
+            // Add slide-in effect for each test card
+            const testCards = document.querySelectorAll('.test-card');
+            testCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, index * 100); // Stagger the animations
+            });
+        } else {
+            console.warn('No test cards found in database'); // Debug log
+            testCardDetailsDiv.innerHTML = '<p>No previous test card available.</p>';
+        }
+    } catch (error) {
+        console.error('Error retrieving test cards:', error);
+        // Use an inline message or a custom modal instead of alert
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = 'Error retrieving test cards: ' + error.message;
+        messageDiv.style.color = 'red';
+        testCardDetailsDiv.appendChild(messageDiv);
+    }
+}
+
+const previousTestCardBtn = document.getElementById('previousTestCardBtn');
+if (previousTestCardBtn) {
+    previousTestCardBtn.addEventListener('click', showPreviousTestCard);
+} else {
+    console.error('Element previousTestCardBtn not found.');
+}
+
+function confirmDelete(patientId, testCardId) {
+    // Create a modal dynamically
+    const modal = document.createElement('div');
+    modal.id = 'confirmDeleteModal';
+    modal.style.cssText = `
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    `;
+
+    modal.innerHTML = `
+        <p>Are you sure you want to delete this test card?</p>
+        <div class="yes-no-buttons">
+            <button id="confirmYesBtn">Yes</button>
+            <button id="confirmNoBtn">No</button>
+        </div>
+    `;
+
+    // Append modal to body
+    document.body.appendChild(modal);
+
+    const confirmYesBtn = document.getElementById('confirmYesBtn');
+    const confirmNoBtn = document.getElementById('confirmNoBtn');
+
+    // Handle Yes button click
+    confirmYesBtn.onclick = function() {
+        deleteTestCard(patientId, testCardId).then(() => {
+            const testCardElement = document.querySelector(`[data-testcard-id="${testCardId}"]`);
+            if (testCardElement) {
+                testCardElement.remove();
+            }
+        }).catch(error => console.error('Error deleting test card:', error));
+        document.body.removeChild(modal); // Remove the modal
+    };
+
+    // Handle No button click
+    confirmNoBtn.onclick = function() {
+        document.body.removeChild(modal); // Remove the modal
+    };
+    }
+
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.create-report-btn')) {
+        const dropdowns = document.querySelectorAll('.dropdown-content');
+        dropdowns.forEach(dropdown => {
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        });
+    }
+}
+
+
+    // Document ready function to handle URL parameters and trigger actions
+
+    function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            action: params.get('action'),
+            search: params.get('search'),
+            previousTestCard: params.get('previousTestCard')
+        };
+    }
+
+    const params = getUrlParams();
+
+    if (params.action === 'runPatientWizard') {
+        // Trigger patient wizard button
+        document.getElementById('patientWizardBtn').click();
+
+        // Trigger search and previous test card buttons in parallel
+        if (params.search === 'true') {
+            setTimeout(() => {
+                document.getElementById('searchBtn').click();
+            }, 500); // Reduced delay for search button
+
+            setTimeout(() => {
+                document.getElementById('previousTestCardBtn').click();
+            }, 1000); // Reduced delay for previous test card button
+        }
+    }
+
+</script>        
+</body>
+</html>

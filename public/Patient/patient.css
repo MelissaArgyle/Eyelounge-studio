@@ -1,0 +1,817 @@
+html, body {
+  height: 100%; /* Ensure the height is always 100% of the viewport */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  font-family: 'Roboto', sans-serif; /* Use the 'Roboto' font for a modern look */
+  background-color: #5f5e5e; /* Set a grey background for the entire viewport */
+  color: #0f0f0f; /* Use light gray text for contrast */
+}
+
+.main-container {
+  display: flex; /* Use flexbox layout */
+  height: 100vh; /* Take the full height of the viewport */
+}
+
+.custom-toolbar {
+  width: 220px; /* Set a fixed width */
+  background-color: #383838; /* Use a dark gray background */
+  padding: 15px; /* Add padding inside the toolbar */
+  display: flex; /* Use flexbox layout */
+  flex-direction: column; /* Arrange children in a column */
+  border-right: 3px solid #7571c7; /* Add a green border on the right */
+  height: 100vh; /* Fill the vertical space */
+  position: fixed; /* Fix it to always stay in place */
+  top: 0; /* Start from the top of the viewport */
+  left: 0; /* Align to the left edge */
+}
+
+.custom-content {
+  flex-grow: 1; /* Allow content to grow and fill available space */
+  background-color: gray; /* Set a gray background */
+  padding: 25px; /* Add padding inside the content area */
+  overflow-y: auto; /* Add vertical scrollbar if content overflows */
+  display: flex; /* Use flexbox layout */
+  flex-direction: column; /* Arrange children in a column */
+  margin-left: 220px; /* Account for the width of the fixed toolbar */
+}
+
+.custom-form-container {
+  display: none; /* Hide the form containers by default */
+}
+
+.custom-form-container.active {
+  display: block; /* Show the form container when active */
+  background-color: #f6f6f6; /* Use a lighter gray background for contrast */
+  padding: 25px; /* Add padding inside the form container */
+  border-radius: 12px; /* Make corners more rounded */
+  box-shadow: 0 0 15px rgba(70, 69, 69, 0.7); /* Add a deeper shadow for depth */
+}
+
+
+/* Common Styles for Input and Textarea */
+form input, form textarea, .custom-input {
+  font-family: Arial, sans-serif; /* Use Arial font */
+  font-size: 16px; /* Set font size */
+  color: #333; /* Set text color */
+  padding: 8px; /* Add padding */
+  margin-top: 5px; /* Add top margin */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+/* Current Form Styles */
+#currentForm .inline-fields {
+  display: flex; /* Use flexbox layout */
+  justify-content: space-between; /* Distribute space between elements */
+}
+
+#currentForm .inline-fields > div {
+  flex: 1; /* Allow divs to grow equally */
+  margin-right: 10px; /* Add right margin */
+}
+
+#currentForm .inline-fields > div:last-child {
+  margin-right: 0; /* Remove right margin for the last element */
+}
+
+#currentForm #pdDiv {
+  display: flex; /* Use flexbox layout */
+  flex-direction: row; /* Arrange items in a row */
+  align-items: center; /* Align items vertically at the center */
+  margin-top: 5px; /* Add top margin */
+}
+
+#currentForm #pdDiv label {
+  margin-right: 5px; /* Add right margin to labels */
+}
+
+#currentForm #pdDiv input {
+  width: 50px; /* Set the width of the input fields */
+}
+
+.header-container {
+  display: flex; /* Use flexbox layout */
+  justify-content: space-between; /* Distribute space between elements */
+  align-items: center; /* Align items vertically at the center */
+}
+
+.patient-name {
+  margin-left: 20px; /* Add left margin */
+  font-size: 1.2em; /* Set font size */
+  font-weight: bold; /* Make text bold */
+}
+
+/* Form Styles */
+form {
+  display: flex; /* Use flexbox layout */
+  flex-direction: column; /* Arrange children in a column */
+}
+
+form label {
+  margin-top: 0px; /* Reduce top margin */
+}
+
+form input, form textarea {
+  margin-top: 0px; /* Reduce top margin */
+}
+
+
+
+.inline-fields {
+  display: flex; /* Use flexbox layout */
+  justify-content: space-between; /* Distribute space between elements */
+}
+
+.inline-fields div {
+  display: inline-block; /* Display as inline block */
+  width: 45%; /* Set width */
+  margin-right: 5%; /* Add right margin */
+}
+
+.inline-fields div:last-child {
+  margin-right: 0; /* Remove right margin for the last element */
+}
+
+#colorVision, #contrastSensitivity {
+  width: 100%; /* Ensure the input fields take the full width */
+}
+
+#notes {
+  width: 100%; /* Ensure the textarea takes the full width */
+  resize: none; /* Prevent resizing */
+}
+
+#vaFields, #spectaclesFields {
+  margin-bottom: 5px; /* Add bottom margin */
+  border: 1px solid #ddd; /* Add border */
+  padding: 10px; /* Add padding */
+  border-radius: 5px; /* Make corners more rounded */
+  background-color: #f9f9f9; /* Set background color */
+}
+
+#vaFields table {
+  width: 100%; /* Ensure table takes the full width */
+  border-collapse: collapse; /* Collapse borders */
+}
+
+#vaFields th, #vaFields td {
+  border: 1px solid #ddd; /* Add border */
+  padding: 6px; /* Add padding */
+  text-align: center; /* Center-align text */
+}
+
+#vaFields th {
+  background-color: #f2f2f2; /* Set background color */
+}
+
+#vaFields > div, #spectaclesFields > div {
+  display: flex; /* Use flexbox layout */
+  align-items: center; /* Align items vertically at the center */
+  gap: 5px; /* Reduced gap */
+  margin-bottom: 10px; /* Add bottom margin */
+  flex: 1; /* Allow flex items to grow equally */
+  max-width: 100%; /* Ensure it does not exceed 100% width */
+  border: 1px solid #ddd; /* Add border */
+  padding: 10px; /* Add padding */
+  border-radius: 5px; /* Make corners more rounded */
+  background-color: #f9f9f9; /* Set background color */
+}
+
+#vaFields > div label, #spectaclesFields > div label,
+label[for="chiefComplaint"], label[for="colorVision"], label[for="contrastSensitivity"] {
+  flex: 0 0 50px; /* Reduced flex basis */
+  font-weight: bold; /* Make labels bold */
+}
+
+#vaFields > div select, #spectaclesFields > div select, #spectaclesFields > div input {
+  flex: 2; /* Allow flex items to grow equally */
+  width: 100px; /* Set consistent width */
+  height: 40px; /* Increased height */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.default-option {
+  color: grey; /* Make default options grey */
+}
+
+/* Ensure consistent dimensions and styling for input and select elements in spectaclesFields */
+#spectaclesFields input, #spectaclesFields select {
+  width: 100%; /* Ensure full width within their containers */
+  height: 40px; /* Set a consistent height */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  padding: 8px; /* Consistent padding */
+  font-size: 16px; /* Consistent font size */
+  margin: 0; /* Ensure no extra margin */
+  line-height: normal; /* Ensure consistent line-height */
+}
+
+
+.patient-card {
+  padding: 5px; /* Add padding */
+  margin-bottom: 5px; /* Add bottom margin */
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 5px; /* Make corners more rounded */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+}
+
+.patient-card:hover {
+  background-color: #b4b8cb1a; /* Change background color on hover */
+  box-shadow: 0 4px 8px rgba(4, 5, 41, 0.658); /* Add shadow on hover */
+  color: #000000; /* Change text color on hover */
+}
+
+.popup-message {
+  display: none; /* Hide by default */
+  position: fixed; /* Fix position */
+  bottom: 20px; /* Position from bottom */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+  background-color: #339f49; /* Set background color */
+  color: white; /* Set text color to white */
+  padding: 10px 20px; /* Add padding */
+  border-radius: 5px; /* Make corners more rounded */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+  font-size: 16px; /* Set font size */
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.popup-message.show {
+  display: block; /* Show when active */
+}
+
+.selected {
+  background-color: #d3d3d3; /* Light gray highlight for selected patient */
+}
+
+.test-card {
+  background-color: white; /* Set background color */
+  color: black; /* Set text color */
+  padding: 20px; /* Add padding */
+  margin-bottom: 20px; /* Add bottom margin */
+  border-radius: 8px; /* Make corners more rounded */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+  opacity: 0; /* Hide initially */
+  transform: translateY(100px); /* Move down initially */
+  transition: all 0.5s ease; /* Smooth transitions */
+}
+
+.test-card.visible {
+  opacity: 1; /* Show when active */
+  transform: translateY(0); /* Move to original position */
+}
+
+
+/* Style for Create Report dropdown */
+.dropdown {
+  position: relative; /* Relative positioning to contain dropdown content */
+  display: inline-block; /* Display as inline block */
+}
+
+.dropbtn {
+  background-color: #181061; /* Green background */
+  color: white; /* White text */
+  padding: 16px; /* Padding */
+  font-size: 16px; /* Font size */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.dropdown-content {
+  display: none; /* Hide by default */
+  position: absolute; /* Position absolutely */
+  bottom: 100%; /* Position above the button */
+  left: 0; /* Align to the left */
+  background-color: #f9f9f9; /* Light gray background color */
+  min-width: 160px; /* Minimum width */
+  box-shadow: 0px -8px 16px 0px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+  z-index: 1; /* Ensure it appears above other content */
+}
+
+.dropdown-content a {
+  color: black; /* Black text */
+  padding: 12px 16px; /* Padding */
+  text-decoration: none; /* No underline */
+  display: block; /* Display block */
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1; /* Light background on hover */
+}
+
+
+
+.show {
+  display: block; /* Display as block when active */
+}
+
+/* CSS for the popupMessage */
+/* Style for the popupMessage */
+#popupMessage {
+  position: fixed; /* Fix position */
+  top: 20px; /* Position from top */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+  background: #010a13; /* Navy blue background */
+  color: white; /* White text */
+  padding: 20px 30px; /* Padding */
+  border: 2px solid #fff; /* White border */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+  font-family: Tahoma, Arial, sans-serif; /* Font family */
+  font-size: 1em; /* Font size */
+  text-align: center; /* Center align text */
+  z-index: 1000; /* Ensure it appears above other content */
+  transition: all 0.3s ease-out; /* Smooth transition */
+}
+
+/* Hover effect for the popupMessage */
+#popupMessage:hover {
+  background: #4169E1; /* Lighter navy on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Increased shadow on hover */
+}
+
+
+.hidden {
+  display: none; /* Hide the element */
+}
+
+/* Add the keyframes for the slide-up animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Style for the test card details */
+#testCardDetails {
+  position: relative;
+  animation: slideUp 1s ease-out;
+}
+
+
+#successMessage {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    text-align: center;
+}
+
+
+/*BUTTON STYLES*/
+
+/*BUTON 24*/
+.button-24 {
+  background-color: transparent;
+  background-image: linear-gradient(#11196e, #090953);
+  border: 0 solid #f2f2f2;
+  border-radius: 9999px;
+  box-shadow: rgba(82, 82, 82, 0.703) 0 4px 11px 0, rgba(72, 72, 72, 0.725) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Hind, system-ui, BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  margin: 4px;
+  padding: 16px 24px;
+  text-align: center;
+  text-decoration: inherit;
+  text-wrap: nowrap;
+  transition: all .2s ease-out;
+  transition-behavior: normal;
+  white-space-collapse: collapse;
+  line-height: 1.15;
+}
+
+@media (min-width: 576px) {
+  .button-24 {
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+}
+
+.button-24:after, .button-24:before, .div-flex-items-center-justify-center:after, .div-flex-items-center-justify-center:before, .span-flex-items-center-h-16-w-auto-mr-8-py-2-flex-grow-0-flex-shrink-0-fill-current:after, .span-flex-items-center-h-16-w-auto-mr-8-py-2-flex-grow-0-flex-shrink-0-fill-current:before, .svg-block-h-full:after, .svg-block-h-full:before {
+  border: 0 solid #24698f;
+  box-sizing: border-box;
+}
+
+.button-24:hover {
+  box-shadow: rgba(219, 221, 224, 0.629) 0 8px 22px 0, rgba(93, 100, 148, .2) 0 4px 6px 0;
+}
+
+.button-24:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+/* Smaller button styles for edit and delete buttons */
+.button-edit, .button-delete {
+  background-color: transparent;
+  border: 0 solid #003dff;
+  border-radius: 9999px;
+  box-shadow: rgba(37, 44, 97, .15) 0 4px 11px 0, rgba(93, 100, 148, .2) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #484c7a;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Hind, system-ui, BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  margin: 4px;
+  padding: 8px 12px; /* Smaller padding */
+  text-align: center;
+  text-decoration: inherit;
+  transition: all .2s ease-out;
+  line-height: 1.15;
+}
+
+.button-edit:hover, .button-delete:hover {
+  box-shadow: rgba(37, 44, 97, .15) 0 8px 22px 0, rgba(93, 100, 148, .2) 0 4px 6px 0;
+}
+
+.button-edit:disabled, .button-delete:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+/* Button-Delete Style */
+.button-delete {
+  color: #fff; /* White text */
+  background-color: #a61313; /* Red background */
+  border: none; /* No border */
+  padding: 10px 20px; /* Padding */
+  border-radius: 6px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Icon size */
+  display: inline-flex; /* Inline flex for icon */
+  align-items: center; /* Center align icon */
+  justify-content: center; /* Center align icon */
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button-delete:hover {
+  background-color: #c13030; /* Darker red background on hover */
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/*toolbar buttons*/
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url(https://images.pexels.com/photos/2166927/pexels-photo-2166927.jpeg?cs=srgb&dl=animal-aquarium-aquatic-2166927.jpg&fm=jpg)
+      no-repeat center center/cover;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+a {
+  font-size: 1.5rem;
+  padding: 1rem 3rem;
+  color: #f4f4f4;
+  text-transform: uppercase;
+}
+
+.custom-toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent;
+}
+
+.custom-toolbar .custom-button {
+  text-decoration: none;
+    border: 1px solid rgb(87, 120, 176);
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%; /* Adjust for responsiveness */
+    height: 50px; /* Set a fixed height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-toolbar .custom-button:hover {
+  box-shadow: 1px 1px 25px 10px rgba(90, 150, 206, 0.4);
+}
+
+.custom-toolbar .custom-button:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(67, 114, 200, 0.314),
+    transparent
+  );
+  transition: all 650ms;
+}
+
+.custom-toolbar .custom-button:hover:before {
+  left: 100%;
+}
+
+
+/* REPORT BUTTONS */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-name {
+  margin-left: 30px;
+  margin-top: 60px;
+}
+
+.example_d {
+  color: #000000 !important; /* Set text color to black */
+  text-transform: uppercase;
+  background: #ffffff;
+  padding: 20px;
+  border: 2px solid #7070707d !important;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  margin: 10px 0;
+  width: 90%; /* Equal width for all buttons */
+  text-align: center; /* Center align text */
+}
+
+.example_d:hover {
+  color: #15125a !important;
+  border-radius: 33px;
+  border-color: #e2e0e0 !important;
+  transition: all 0.6s ease 0s;
+}
+
+/*yes/no buttons*/
+.yes-no-buttons {
+  display: flex;
+  width: 300px;
+  gap: 10px;
+  --b: 4px;   /* the border thickness */
+  --h: 1.6em; /* the height */
+}
+
+.yes-no-buttons button {
+  --_c: #88C100;
+  flex: calc(1.25 + var(--_s,0));
+  min-width: 0;
+  font-size: 23px;
+  font-weight: bold;
+  height: var(--h);
+  cursor: pointer;
+  color: var(--_c);
+  border: var(--b) solid var(--_c);
+  background: 
+    conic-gradient(at calc(100% - 1.3*var(--b)) 0,var(--_c) 209deg, #0000 211deg) 
+    border-box;
+  clip-path: polygon(0 0,100% 0,calc(100% - 0.577*var(--h)) 100%,0 100%);
+  padding: 0 calc(0.288*var(--h)) 0 0;
+  margin: 0 calc(-0.288*var(--h)) 0 0;
+  box-sizing: border-box;
+  transition: flex .4s;
+}
+.yes-no-buttons button + button {
+  --_c: #FF003C;
+  flex: calc(.75 + var(--_s,0));
+  background: 
+    conic-gradient(from -90deg at calc(1.3*var(--b)) 100%,var(--_c) 119deg, #0000 121deg) 
+    border-box;
+  clip-path: polygon(calc(0.577*var(--h)) 0,100% 0,100% 100%,0 100%);
+  margin: 0 0 0 calc(-0.288*var(--h));
+  padding: 0 0 0 calc(0.288*var(--h));
+}
+.yes-no-buttons button:focus-visible {
+  outline-offset: calc(-2*var(--b));
+  outline: calc(var(--b)/2) solid #000;
+  background: none;
+  clip-path: none;
+  margin: 0;
+  padding: 0;
+}
+.yes-no-buttons button:focus-visible + button {
+  background: none;
+  clip-path: none;
+  margin: 0;
+  padding: 0;
+}
+.yes-no-buttons button:has(+ button:focus-visible) {
+  background: none;
+  clip-path: none;
+  margin: 0;
+  padding: 0;
+}
+.yes-no-buttons button:hover,
+.yes-no-buttons button:active:not(:focus-visible) {
+  --_s: .75;
+}
+.yes-no-buttons button:active {
+  box-shadow: inset 0 0 0 100vmax var(--_c);
+  color: #fff;
+}
+
+/* Search Bar Container */
+.search-bar-container {
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  background-color: #dbe3f969;
+  padding: 13px;
+  width: 100%;
+  margin: 20px auto;
+  box-sizing: border-box;
+  border-radius: 6px;
+  box-shadow:
+    0 2px 4px 0 rgba(72, 72, 72, 0.504),
+    0 10px 15px 0 rgba(126, 126, 126, 0.12),
+    0 -2px 6px 1px rgba(199, 199, 199, 0.55) inset,
+    0 2px 4px 2px rgba(255, 255, 255, 0.83) inset;
+}
+
+/* Search Bar */
+.search-bar {
+  width: 50%;
+  height: 45px; /* Increase the height here */
+  padding-left: 15px;
+  border-radius: 6px;
+  border: none;
+  color: #060606;
+  font-weight: 500;
+  background-color: #fafafa; /* Navy color */
+  box-shadow:
+    0 -2px 2px 0 rgba(218, 217, 217, 0.55),
+    0 1px 1px 0 #fff,
+    0 2px 2px 1px #fafafa,
+    0 2px 4px 0 #b2b2b2 inset,
+    0 -1px 1px 0 #f2f2f2 inset,
+    0 15px 15px 0 rgba(41, 41, 41, 0.09) inset;
+}
+
+/* Placeholder */
+.search-bar::placeholder {
+  color: #080808;
+  opacity: 0.8;
+}
+
+/* Focus Effect */
+.search-bar:focus {
+  outline: none;
+}
+
+/* Hover Effect */
+.search-bar:hover {
+  box-shadow:0 -2px 2px 0#6a6a6d;
+}
+
+/* Search Icon */
+ .search-icon {
+ position: absolute; 
+ margin-left: 15px;
+   color: #939393;
+ }
+
+/* Adjust delete button styles */
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: red; /* Set icon color to red */
+  font-size: 1.5em; /* Adjust icon size */
+  position: absolute;
+  right: 10px; /* Move to the far right edge */
+  top: 10px; /* Adjust top position if needed */
+  padding: 10px; /* Add padding for better click area */
+  border-radius: 8px; /* Rounded edges */
+  transition: color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+}
+
+/* Hover effect for delete button */
+.delete-btn:hover {
+  color: darkred; /* Slight color change on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+/* Positioning container for the test card */
+.test-card {
+  position: relative;
+  padding-right: 50px; /* Add padding to ensure space for the delete button */
+}
+
+/*dropdown*/
+/* Basic styles for body */
+body {
+  display: flex;
+  height: 100vh;
+  padding: 0 5rem;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  background-color: #fff;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Styles for the dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.create-report-btn {
+  background-image: linear-gradient(to right, #ed6ea0 0%, #ec8c69 100%);
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  box-shadow: inset 0.1rem 0.1rem 0.5rem rgba(0, 0, 0, 0.15);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 300;
+  padding: 1rem 2rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.create-report-btn:hover {
+  background-image: linear-gradient(to right, #ec8c69 0%, #ed6ea0 100%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles for the dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  text-align: center;
+}
+
+.dropdown-content button {
+  background: none;
+  border: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-content button:hover {
+  background-color: #f1f1f1;
+}
+
+.show {
+  display: block;
+}
+
+
+
+

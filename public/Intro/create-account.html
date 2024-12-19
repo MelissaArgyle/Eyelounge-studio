@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+            url(https://images.pexels.com/photos/2166927/pexels-photo-2166927.jpeg?cs=srgb&dl=animal-aquarium-aquatic-2166927.jpg&fm=jpg)
+            no-repeat center center/cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #create-account-box {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: rgb(227, 227, 228);
+            box-shadow: 1px 1px 25px 10px rgba(90, 150, 206, 0.4);
+        }
+        .create-account-button {
+            text-decoration: none;
+            border: 1px solid rgb(87, 120, 176);
+            position: relative;
+            overflow: hidden;
+            background-color: rgb(18, 21, 90);
+            color: rgb(254, 254, 254);
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-radius: 8px;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .create-account-button:hover {
+            background-color:rgb(29, 10, 98);
+            box-shadow: 1px 1px 25px 10px rgba(90, 150, 206, 0.4);
+        }
+        .create-account-button:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(67, 114, 200, 0.314), transparent);
+            transition: all 650ms;
+        }
+        .create-account-button:hover:before {
+            left: 100%;
+        }
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 1px 1px 25px 10px rgba(90, 150, 206, 0.4);
+            z-index: 1000;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="create-account-box" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form id="create-account-form">
+                    <h2>Create Account</h2>
+                    <div class="form-group">
+                        <label for="practice-name">Practice Name:</label>
+                        <input type="text" id="practice-name" name="practiceName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="surname">Surname:</label>
+                        <input type="text" id="surname" name="surname" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-details">Contact Details:</label>
+                        <input type="text" id="contact-details" name="contactDetails" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <input type="text" id="country" name="country" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">Password:</label>
+                        <input type="password" id="new-password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary create-account-button">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="popup">Account created successfully!</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById("create-account-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            // Gather form data
+            const practiceName = document.getElementById("practice-name").value;
+            const name = document.getElementById("name").value;
+            const surname = document.getElementById("surname").value;
+            const contactDetails = document.getElementById("contact-details").value;
+            const country = document.getElementById("country").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("new-password").value;
+
+            // Send form data to server
+            fetch("http://localhost:3001/create-account", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ practiceName, name, surname, contactDetails, country, email, password })
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById("popup").style.display = "block";
+                    setTimeout(function() {
+                        window.history.back();
+                    }, 3000); // Adjust the delay time as needed
+                } else {
+                    response.text().then(text => alert(text)); // Display server error message
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Scroll Resize with Toolbar</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="../Cursor/cursor.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+        }
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .image-container img {
+            transition: transform 0.3s ease;
+        }
+        .banner {
+            position: fixed;
+            bottom: 40px; /* Adjust this value to move the banner higher */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 85px; /* Increased height */
+            background: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(2,0,36,1) 20%, rgba(9,9,121,1) 30%, rgba(0,212,255,1) 70%, rgba(2,0,36,1) 80%, rgba(2,0,36,0) 100%); /* More transparent edges */
+            color: white;
+            text-align: center;
+            padding: 20px; /* Increased padding */
+            font-size: 25px; /* Increased font size */
+            border-radius: 15px; /* More rounded edges */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .toolbar-container {
+            position: fixed;
+            overflow: hidden;
+        }
+
+        .left-toolbar-container {
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 70px;
+        }
+
+        .right-toolbar-container {
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 70px;
+        }
+
+        .toolbar {
+            position: fixed;
+            background: linear-gradient(to bottom, #343a40, #515253);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border-radius: 12px; /* Increased radius for softer corners */
+            box-shadow: 0 6px 8px rgba(31, 31, 31, 0.705), 0 -6px 8px rgba(31, 31, 31, 0.705), 6px 0 8px rgba(31, 31, 31, 0.705), -6px 0 8px rgba(31, 31, 31, 0.705);
+        }
+
+        .toolbar button {
+            position: relative;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 40px;
+            margin: 3px;
+            box-sizing: border-box;
+            border: 2px solid white;
+            border-radius: 8px; /* Rounded corners for buttons */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .toolbar button:hover {
+            background-color: #797575;
+            color: black;
+            border-color: #797575;
+            transform: scale(1.05); /* Slight scaling effect on hover */
+        }
+
+
+        .left-toolbar, .right-toolbar {
+            top: 0;
+            height: 100%;
+            width: 80px; /* Increase width */
+            flex-direction: column;
+            transform: translateX(-100%);
+        }
+
+        .right-toolbar {
+            right: 0;
+            transform: translateX(100%);
+        }
+
+        .bottom-toolbar-container {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            width: 50%; /* Increase width */
+            height: 80px; /* Increase height */
+            transform: translateX(-50%);
+            overflow: hidden; /* Ensure the toolbar is hidden when off-screen */
+            border-top-left-radius: 12px; /* Rounded top left corner */
+            border-top-right-radius: 12px; /* Rounded top right corner */
+        }
+
+        .bottom-toolbar {
+            position: absolute;
+            bottom: -70px; /* Move the toolbar off the screen */
+            left: 0;
+            padding-top: 10px;
+            width: 100%;
+            height: 70px; /* Increase height */
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            transition: transform 0.3s ease; /* Smooth transition */
+            border-top-left-radius: 12px; /* Rounded top left corner */
+            border-top-right-radius: 12px
+        }
+
+        .bottom-toolbar-container:hover .bottom-toolbar {
+            transform: translateY(-70px); /* Move the toolbar into view */
+        }
+
+
+        .left-toolbar-container:hover .left-toolbar {
+            transform: translateX(0); /* Move the left toolbar into view */
+        }
+
+        .right-toolbar-container:hover .right-toolbar {
+            transform: translateX(0); /* Move the right toolbar into view */
+        }
+
+        .top-buttons {
+            margin-bottom: 20px;
+            padding: 2px;
+            border: 2.5px solid rgb(12, 154, 12);
+            border-radius: 10px;
+        }
+
+        .btn:hover {
+            background-color: #797575 !important;
+            color: black !important;
+            border-color: #797575 !important; /* Ensure border color matches background */
+        }
+
+        .top-buttons .btn:hover {
+            background-color: #797575 !important; /* Standardize hover color */
+            color: black !important;
+            border-color: #797575 !important; /* Ensure border color matches background */
+        }
+
+        .left-toolbar .btn:hover, .right-toolbar .btn:hover, .bottom-toolbar .btn:hover {
+            background-color: #797575 !important; /* Standardize hover color */
+            color: black !important;
+            border-color: #797575 !important; /* Ensure border color matches background */
+        }
+
+        :root {
+            --toolbar-bg: #343a40;
+            --tooltip-bg: #343a40;
+            --tooltip-color: white;
+        }
+
+        .tooltip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--tooltip-bg);
+    color: var(--tooltip-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    font-size: 14px; /* Ensure consistent font size */
+}
+
+.toolbar button:hover .tooltip {
+    opacity: 1;
+}
+
+.bottom-tooltip {
+    position: absolute;
+    top: -35px; /* Adjust the distance from the button */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--tooltip-bg);
+    color: var(--tooltip-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    font-size: 14px; /* Ensure consistent font size */
+}
+
+.toolbar button:hover .bottom-tooltip {
+    opacity: 1;
+}
+
+.hover-area {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 150px;
+}
+
+.hover-area.left {
+    left: 0;
+}
+
+.hover-area.right {
+    right: 0;
+}
+
+        .new-image {
+            width: 15px; /* Set your desired width */
+            height: 15px; /* Set your desired height */
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img id="resizable-image" src="JCC dots.jpg" alt="Image">
+    </div>
+    <div id="banner" class="banner">Astigmatism</div>
+    <div class="toolbar-container left-toolbar-container">
+        <div class="toolbar left-toolbar">
+            <button id="VA" aria-label="VA Chart" class="btn btn-light mb-2 border" onclick="navigateToFile('../VA Charts/VA CHARTS.html')">
+                <img src="../Icons/monitor.png" alt="VA Chart Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">VA Chart</div>
+            </button>
+            <button id="astigmatism" aria-label="Astigmatism" class="btn btn-light mb-2 border" onclick="navigateToFile('../Astigmatism/JCC.html')">
+                <img src="../Icons/medical.png" alt="Astigmatism Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Astigmatism</div>
+            </button>
+            <button id="duochrome" aria-label="Duochrome" class="btn btn-light mb-2 border" onclick="navigateToFile('../Duochrome/Butterfly.html')">
+                <img src="../Icons/right-arrow.png" alt="Duochrome Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Duochrome</div>
+            </button>
+            <button id="binoculartests" aria-label="Binocular Test" class="btn btn-light mb-2 border" onclick="navigateToFile('../Binocular Vision/W4D.html')">
+                <img src="../Icons/eye-test.png" alt="Binocular Test Icon" style="width: 50px; height: 50px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Binocular Test</div>
+            </button>
+            <button id="colourvision" aria-label="Colour Vision" class="btn btn-light mb-2 border" onclick="navigateToFile('../Colour Vision/CV.html')">
+                <img src="../Icons/color.png" alt="Colour Vision Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Colour Vision</div>
+            </button>
+            <button id="contrastsensitivity" aria-label="Contrast Sensitivity" class="btn btn-light mb-2 border" onclick="navigateToFile('../CS/CS.html')">
+                <img src="../Icons/contrast.png" alt="Contrast Sensitivity Icon" style="width: 30px; height: 30px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Contrast Sensitivity</div>
+            </button>            
+            <button id="fixationtargets" aria-label="Fixation Target" class="btn btn-light mb-2 border" onclick="navigateToFile('../Fixation target/FT.html')">
+                <img src="../Icons/image.png" alt="Fixation Target Icon" style="width: 35px; height: 35px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Fixation Target</div>
+            </button>  
+        </div>
+    </div> 
+    <div class="toolbar-container right-toolbar-container">
+        <div class="toolbar right-toolbar">
+            <button id="jcc-button" class="btn btn-secondary mb-2">
+                <img src="../Icons/loading.png" alt="JCC Dots Icon" style="width: 30px; height: 30px; filter: invert(100%);">
+                <div class="tooltip" style="right: 100%;">JCC dots</div>
+            </button>
+            <button id="clock-button" class="btn btn-secondary mb-2">
+                <img src="../Icons/loader.png" alt="Clock 1 Icon" style="width: 35px; height: 35px; filter: invert(100%);">
+                <div class="tooltip" style="right: 100%;">Clock 1</div>
+            </button>
+            <button id="new-image-button" class="btn btn-secondary mb-2">
+                <img src="../Icons/new.png" alt="Clock 2 Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="right: 100%;">Clock 2</div>
+            </button>
+        </div>
+    </div>
+    <div class="toolbar-container bottom-toolbar-container">
+        <div class="toolbar bottom-toolbar">
+            <button id="education" aria-label="Education" class="btn btn-light mb-2 border" onclick="navigateToFile('../Education/education.html')">
+                <img src="../Icons/reading.png" alt="Education Icon" style="width: 35px; height: 35px; filter: invert(100%);">
+                <div class="bottom-tooltip">Education</div>
+            </button>
+            <button id="patient" aria-label="Patient" class="btn btn-light mb-2 border" onclick="navigateToFile('../Patient/patient.html')">
+                <img src="../Icons/medical-record.png" alt="Patient Icon" style="width: 35px; height: 35px; filter: invert(100%);">
+                <div class="bottom-tooltip">Patient</div>
+            </button>          
+            <button id="settings" aria-label="Settings" class="btn btn-light mb-2 border" onclick="navigateToFile('../Settings/settings.html')">
+                <img src="../Icons/control.png" alt="Settings Icon" style="width: 31px; height: 31px; filter: invert(100%);">
+                <div class="bottom-tooltip">Settings</div>
+            </button>
+            <button id="account" aria-label="Your Account" class="btn btn-light mb-2 border" onclick="navigateToFile('../Account/account.html')">
+                <img src="../Icons/man.png" alt="Your Account Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="bottom-tooltip">Your Account</div>
+            </button>            
+        </div>
+    </div>
+
+    <script>
+        const image = document.getElementById('resizable-image');
+        const sizes = ['0.5', '0.75', '1', '1.25'];
+        let currentSizeIndex = 2; // Start with 100%
+        const initialImageSrc = "JCC dots.jpg";
+        const clockImageSrc = "https://image5.cdnsbg.com/cms.smartbuyglasses.ca/wp-content/uploads/sites/4/2023/08/desktop-astigmatism-1.png";
+        const newImageSrc = "Astigmatism lnes.jpg";
+
+        function resizeImage(event) {
+            if (event.deltaY < 0) {
+                // Scroll up
+                currentSizeIndex = Math.max(0, currentSizeIndex - 1);
+            } else {
+                // Scroll down
+                currentSizeIndex = Math.min(sizes.length - 1, currentSizeIndex + 1);
+            }
+            image.style.transform = `scale(${sizes[currentSizeIndex]})`;
+        }
+
+        function changeToClockImage() {
+            image.src = clockImageSrc;
+            image.style.transform = `scale(${sizes[0]})`; // Set to smallest size
+        }
+
+        function changeToInitialImage() {
+            image.src = initialImageSrc;
+            image.style.transform = `scale(${sizes[2]})`; // Set to initial size
+        }
+
+        function changeToNewImage() {
+            image.src = newImageSrc;
+            image.style.transform = `scale(${sizes[0]})`;
+        }
+
+        window.addEventListener('wheel', resizeImage);
+        document.getElementById('clock-button').addEventListener('click', changeToClockImage);
+        document.getElementById('jcc-button').addEventListener('click', changeToInitialImage);
+        document.getElementById('new-image-button').addEventListener('click', changeToNewImage);
+
+        window.onload = function() {
+            const banner = document.getElementById('banner');
+            banner.style.opacity = 1;
+            setTimeout(() => {
+                banner.style.opacity = 0;
+            }, 2000);
+        };
+        function navigateToFile(path) {
+            window.location.href = path;
+        }
+
+    </script>
+</body>
+</html>

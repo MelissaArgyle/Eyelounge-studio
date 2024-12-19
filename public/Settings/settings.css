@@ -1,0 +1,403 @@
+/* Body styles */
+body {
+    font-family: Arial, sans-serif; /* Set the default font family */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    background-color: #e0e0e0; /* Set background color */
+    cursor: url('../Cursor/one.cur'), auto; /* Default cursor */
+    display: flex; /* Enable flexbox layout */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+}
+
+/* Container styles */
+.container {
+    width: 90vh; /* Set container width using viewport height */
+    max-width: 1200px; /* Maximum width for the container */
+    height: 76.5vh; /* Set container height using viewport height */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Add shadow effect */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Hide overflow content */
+    display: flex; /* Enable flexbox layout */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+}
+
+/* Content styles */
+.content {
+    flex: 1; /* Grow to fill available space */
+    display: flex; /* Enable flexbox layout */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center children vertically */
+    align-items: center; /* Center children horizontally */
+    background-color: #f4f4f4; /* Set background color */
+    overflow: hidden; /* Hide overflow content */
+    width: 100vh; /* Set content width using viewport height */
+    height: 70vh; /* Set content height using viewport height */
+}
+
+/* Box styles */
+.box {
+    border: 1px solid #ccc; /* Border styling */
+    padding: 20px; /* Padding inside the box */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* Background color */
+    text-align: center; /* Center text */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Add shadow effect */
+    transition: opacity 0.5s ease; /* Smooth opacity transition */
+    display: flex; /* Enable flexbox layout */
+    flex-direction: column; /* Stack children vertically */
+    gap: 20px; /* Gap between elements */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
+    width: 80vh; /* Set box width using viewport height */
+    height: 70vh; /* Set box height using viewport height */
+}
+
+/* Toolbar styles */
+.toolbar {
+    position: relative; /* Position relative to parent */
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url('https://images.pexels.com/photos/2166927/pexels-photo-2166927.jpeg?cs=srgb&dl=animal-aquarium-aquatic-2166927.jpg&fm=jpg')
+      no-repeat center center/cover; /* Background image and gradient */
+    font-family: Arial, Helvetica, sans-serif; /* Font family */
+    padding: 10px; /* Padding inside the toolbar */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Add shadow effect */
+    display: flex; /* Enable flexbox layout */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    height: 70vh; /* Set toolbar height using viewport height */
+}
+
+/* Toolbar button styles */
+.toolbar .toolbar-button {
+    text-decoration: none; /* Remove underline from links */
+    border: 1px solid rgb(87, 120, 176); /* Border styling */
+    position: relative; /* Position relative to parent */
+    overflow: hidden; /* Hide overflow content */
+    background-color: transparent; /* Transparent background */
+    color: white; /* Text color */
+    padding: 0.5rem 1.5rem; /* Padding inside the button */
+    font-size: 1rem; /* Font size */
+    text-transform: uppercase; /* Uppercase text */
+    margin-bottom: 8px; /* Margin below the button */
+    cursor: pointer; /* Pointer cursor */
+    border-radius: 5px; /* Rounded corners */
+    width: 100%; /* Full width */
+    height: 50px; /* Set height */
+    display: flex; /* Enable flexbox layout */
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+}
+
+/* Toolbar button hover effect */
+.toolbar .toolbar-button:hover {
+    box-shadow: 1px 1px 25px 10px rgba(90, 150, 206, 0.4); /* Add shadow effect on hover */
+}
+
+/* Toolbar button gradient effect */
+.toolbar .toolbar-button:before {
+    content: ""; /* Empty content for the gradient */
+    position: absolute; /* Position absolute to parent */
+    top: 0; /* Position at the top */
+    left: -100%; /* Start from outside the left */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(67, 114, 200, 0.314),
+      transparent
+    ); /* Gradient background */
+    transition: all 650ms; /* Smooth transition */
+}
+
+/* Toolbar button hover gradient effect */
+.toolbar .toolbar-button:hover:before {
+    left: 100%; /* Move gradient to the right */
+}
+
+/* Video tutorial button styles */
+#video-tutorial-button {
+    text-decoration: none; /* Remove underline from links */
+    border: 1px solid rgb(87, 120, 176); /* Border styling */
+    position: relative; /* Position relative to parent */
+    overflow: hidden; /* Hide overflow content */
+    background-color: transparent; /* Transparent background */
+    color: white; /* Text color */
+    padding: 0.5rem 1.5rem; /* Padding inside the button */
+    font-size: 1rem; /* Font size */
+    text-transform: uppercase; /* Uppercase text */
+    cursor: pointer; /* Pointer cursor */
+    border-radius: 5px; /* Rounded corners */
+    width: 100%; /* Full width */
+    height: 50px; /* Set height */
+    display: flex; /* Enable flexbox layout */
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+}
+
+/* Video tutorial button hover effect */
+#video-tutorial-button:hover {
+    box-shadow: 1px 1px 25px 10px rgba(90, 150, 206, 0.4); /* Add shadow effect on hover */
+}
+
+/* Black bar styles */
+.black-bar {
+    width: 100px; /* Set width */
+    height: 20px; /* Set height */
+    background-color: black; /* Background color */
+    margin: 10px auto; /* Center with margin */
+    position: relative; /* Position relative to parent */
+}
+
+/* Arrow styles */
+.arrow {
+    position: absolute; /* Position absolute to parent */
+    top: 40%; /* Position at 40% from top */
+    transform: translateY(-50%); /* Center vertically */
+    color: white; /* Text color */
+    font-size: 29px; /* Font size */
+}
+
+/* Left arrow styles */
+.left-arrow {
+    left: 15px; /* Position 15px from left */
+    animation: moveLeftArrow 1s infinite alternate; /* Apply animation */
+}
+
+/* Right arrow styles */
+.right-arrow {
+    right: 15px; /* Position 15px from right */
+    animation: moveRightArrow 1s infinite alternate; /* Apply animation */
+}
+
+/* Move left arrow keyframes */
+@keyframes moveLeftArrow {
+    0% { transform: translateY(-50%) translateX(0); }
+    100% { transform: translateY(-50%) translateX(-10px); }
+}
+
+/* Move right arrow keyframes */
+@keyframes moveRightArrow {
+    0% { transform: translateY(-50%) translateX(0); }
+    100% { transform: translateY(-50%) translateX(10px); }
+}
+
+/* Input number styles */
+input[type="number"] {
+    width: 80px; /* Set width */
+}
+
+/* Button styles */
+button {
+    width: 100px; /* Set width */
+    padding: 5px; /* Padding inside the button */
+}
+
+/* Icons container styles */
+.icons {
+    display: flex; /* Enable flexbox layout */
+    justify-content: center; /* Center children horizontally */
+    align-items: center; /* Center children vertically */
+    margin: 10px 0; /* Margin above and below */
+}
+
+/* Icon styles */
+.icon {
+    font-size: 24px; /* Font size */
+    margin: 0 10px; /* Margin on sides */
+}
+
+/* Square screen styles */
+.square-screen {
+    width: 24px; /* Set width */
+    height: 24px; /* Set height */
+    background-color: #000; /* Background color */
+    border-radius: 4px; /* Rounded corners */
+}
+
+/* Notation options container styles */
+.notation-options {
+    display: flex; /* Enable flexbox layout */
+    justify-content: center; /* Center children horizontally */
+    margin: 20px 0; /* Margin above and below */
+}
+
+/* Notation options div styles */
+.notation-options div {
+    margin: 0 20px; /* Margin on sides */
+}
+
+/* Distance value text styles */
+#distance-value {
+    margin: 10px 0; /* Margin above and below */
+}
+
+/* Spacer styles for creating space */
+.spacer {
+    height: 20px; /* Set height */
+}
+
+/* Responsive adjustments for screens smaller than 768px */
+@media (max-width: 768px) {
+    .container {
+        width: 85vh; /* Adjust width for smaller screens */
+    }
+
+    .content {
+        width: 85vh; /* Adjust width for smaller screens */
+    }
+
+    .box {
+        width: 85vh; /* Adjust width for smaller screens */
+    }
+
+    .toolbar {
+        width: 100%; /* Full width */
+        padding: 10px; /* Padding inside the toolbar */
+        height: auto; /* Auto height for responsiveness */
+    }
+    
+    .toolbar button, #video-tutorial-button {
+        width: 100%; /* Full width */
+    }
+
+    .content {
+        flex-direction: column; /* Stack children vertically */
+        padding: 10px; /* Padding inside the content */
+        height: auto; /* Auto height for responsiveness */
+    }
+
+    .box {
+        width: 100%; /* Full width */
+        height: auto; /* Auto height for responsiveness */
+    }
+
+    .black-bar {
+        width: 80px; /* Adjust width for smaller screens */
+    }
+}
+
+/* Further responsive adjustments for screens smaller than 576px */
+@media (max-width: 576px) {
+    .container {
+        width: 90vh; /* Further adjust width for smaller screens */
+    }
+
+    .content {
+        width: 90vh; /* Further adjust width for smaller screens */
+    }
+
+    .box {
+        width: 90vh; /* Further adjust width for smaller screens */
+    }
+
+    .toolbar .toolbar-button {
+        font-size: 0.875rem; /* Adjust font size for smaller screens */
+    }
+    
+    .black-bar {
+        width: 60px; /* Further adjust width for smaller screens */
+    }
+}
+
+/* Button 24 styles */
+.button-24 {
+    background-color: transparent; /* Transparent background */
+    background-image: linear-gradient(#11196e, #090953); /* Gradient background */
+    border: 0 solid #f2f2f2; /* No border */
+    border-radius: 9999px; /* Fully rounded corners */
+    box-shadow: rgba(82, 82, 82, 0.779) 0 4px 11px 0, rgba(72, 72, 72, 0.76) 0 1px 3px 0; /* Add shadow effect */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    color: #ffffff; /* Text color */
+    cursor: pointer; /* Pointer cursor */
+    display: inline-block; /* Inline block layout */
+    font-family: Hind, system-ui, BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; /* Font family */
+    font-weight: 600; /* Font weight */
+    margin: 4px; /* Margin around the button */
+    padding: 16px 24px; /* Padding inside the button */
+    text-align: center; /* Center text */
+    text-decoration: inherit; /* Inherit text decoration */
+    transition: all .2s ease-out; /* Smooth transition */
+    transition-behavior: normal; /* Normal transition behavior */
+    line-height: 1.15; /* Line height */
+    white-space: nowrap; /* Prevent text from wrapping */
+    width: auto; /* Adjust width to the content */
+}
+
+/* Media query for larger screens */
+@media (min-width: 576px) {
+    .button-24 {
+        padding-bottom: 10px; /* Adjust padding for larger screens */
+        padding-top: 10px; /* Adjust padding for larger screens */
+    }
+}
+
+/* Box styles for the button */
+.button-24:after, .button-24:before, .div-flex-items-center-justify-center:after, .div-flex-items-center-justify-center:before, .span-flex-items-center-h-16-w-auto-mr-8-py-2-flex-grow-0-flex-shrink-0-fill-current:after, .span-flex-items-center-h-16-w-auto-mr-8-py-2-flex-grow-0-flex-shrink-0-fill-current:before, .svg-block-h-full:after, .svg-block-h-full:before {
+    border: 0 solid #24698f; /* Border color */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Hover effect for button 24 */
+.button-24:hover {
+    box-shadow: rgba(219, 221, 224, 0.629) 0 8px 22px 0, rgba(93, 100, 148, .2) 0 4px 6px 0; /* Add shadow effect on hover */
+}
+
+/* Disabled state for button 24 */
+.button-24:disabled {
+    cursor: not-allowed; /* Not-allowed cursor */
+    opacity: .5; /* Reduce opacity */
+}
+
+/* Box position and transform styles */
+.box {
+    position: absolute; /* Position absolute to parent */
+    top: 50%; /* Position at 50% from top */
+    left: 50%; /* Position at 50% from left */
+    transform: translate(-50%, -50%); /* Center element */
+}
+
+/* Select box styles */
+.box select {
+    background-color: rgba(90, 150, 206, 0.4); /* Background color */
+    color: black; /* Text color */
+    padding: 12px; /* Padding inside the select box */
+    width: 250px; /* Set width */
+    border: none; /* Remove border */
+    font-size: 20px; /* Font size */
+    box-shadow: 0 5px 25px rgba(3, 0, 13, 0.308); /* Add shadow effect */
+    -webkit-appearance: button; /* Appearance for WebKit browsers */
+    appearance: button; /* Appearance for all browsers */
+    outline: none; /* Remove outline */
+    border-radius: 20px; /* Rounded corners */
+}
+
+/* Select box hover effect */
+.box::before {
+    content: "\f13a"; /* FontAwesome content */
+    font-family: FontAwesome; /* Font family */
+    position: absolute; /* Position absolute to parent */
+    top: 0; /* Position at the top */
+    right: 0; /* Position at the right */
+    width: 20%; /* Set width */
+    height: 100%; /* Full height */
+    text-align: center; /* Center text */
+    font-size: 28px; /* Font size */
+    line-height: 45px; /* Line height */
+    color: rgba(255, 255, 255, 0.5); /* Text color */
+    background-color: rgba(255, 255, 255, 0.1); /* Background color */
+    pointer-events: none; /* Disable pointer events */
+}
+
+/* Select box hover effect */
+.box:hover::before {
+    color: rgba(255, 255, 255, 0.6); /* Change text color on hover */
+    background-color: rgba(255, 255, 255, 0.2); /* Change background color on hover */
+}
+
+/* Select box option styles */
+.box select option {
+    padding: 30px; /* Padding inside the options */
+}

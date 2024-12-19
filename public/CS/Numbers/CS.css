@@ -1,0 +1,375 @@
+@font-face {
+    font-family: 'Optician Sans';
+    src: url('path/to/OpticianSans.woff2') format('woff2'),
+         url('path/to/OpticianSans.woff') format('woff');
+}
+body {
+    overflow-x: hidden;
+    font-family: 'Optician Sans', sans-serif;
+    font-feature-settings: 'ss02' 1;
+    cursor: url('/Cursor/blue.cur'), auto;
+}
+
+.container-fluid, .content {
+    min-height: 100%; /* Ensures the container and content fill the remaining space */
+    display: flex;
+    flex-direction: column;
+}
+
+
+.line {
+    font-size: 3rem; /* Increased font size */
+    margin-bottom: 16px; /* Increased margin-bottom for larger spacing */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 1.3em; /* Set letter spacing to 1.3em */
+}
+
+.line:nth-child(1) { color: rgba(0, 0, 0, 0.8); }
+.line:nth-child(2) { color: rgba(0, 0, 0, 0.50); }
+.line:nth-child(3) { color: rgba(0, 0, 0, 0.35); }
+.line:nth-child(4) { color: rgba(0, 0, 0, 0.15); }
+.line:nth-child(5) { color: rgba(0, 0, 0, 0.075); }
+.line:nth-child(6) { color: rgba(0, 0, 0, 0.030); }
+.line:nth-child(7) { color: rgba(0, 0, 0, 0.015); }
+.line:nth-child(8) { color: rgba(0, 0, 0, 0.008); }
+.line:nth-child(9) { color: rgba(0, 0, 0, 0.004); }
+.line:nth-child(10) { color: rgba(0, 0, 0, 0.002); }
+
+.percentage {
+    display: none; /* Hide the percentage next to the lines */
+}
+
+.highlight {
+    border-top: none; /* No border on the top */
+    border-radius: 25px; /* Rounded edges */
+    padding: 10px 20px; /* Reduced padding for smaller height */
+    background: rgba(255, 255, 255, 0.9); /* Simple white background with slight transparency */
+    width: 500px; /* Increased width */
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+    position: fixed; /* Positioning the highlighter fixed */
+    top: 50%; /* Centered vertically */
+    left: 50%; /* Centered horizontally */
+    transform: translate(-50%, -50%); /* Adjust to be perfectly centered */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Larger shadow for a more prominent look */
+    overflow: hidden; /* Ensures inner content respects border-radius */
+    border: 2px solid #d3d3d3; /* Light gray border */
+    height: 100px; /* Set a specific height */
+    display: flex; /* Flexbox for centering content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.highlight:hover {
+    box-shadow: 0 16px 60px rgba(0, 0, 0, 0.4); /* Even larger shadow on hover */
+    transform: translate(-50%, -50%) scale(1.05); /* Slightly enlarge on hover */
+}
+
+.highlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px; /* Rounded edges for the inner color */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 70%, rgb(253, 253, 252) 100%); /* Gradient from opaque white to opaque light green */
+    z-index: -1; /* Place behind the content */
+}
+
+.percentage-display {
+    position: fixed;
+    top: 15px;
+    left: 15%;
+    color: red;
+    font-size: 30px;
+}
+
+.tumbling-e-container {
+    display: flex; /* Use flexbox to align items */
+    justify-content: center; /* Ensure equal spacing between items */
+    width: 100%; /* Full width of the container */
+}
+
+.tumbling-e {
+    display: flex;
+    justify-content: space-between;
+    font-size: 3rem; /* Ensure the same font size as other letters and numbers */
+    letter-spacing: auto; /* Adjust spacing to auto */
+    text-align: center;
+    position: relative;
+}
+.banner {
+    position: fixed;
+    bottom: 40px; /* Adjust this value to move the banner higher */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 85px; /* Increased height */
+    background: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(2,0,36,1) 20%, rgba(9,9,121,1) 30%, rgba(0,212,255,1) 70%, rgba(2,0,36,1) 80%, rgba(2,0,36,0) 100%); /* More transparent edges */
+    color: white;
+    text-align: center;
+    padding: 20px; /* Increased padding */
+    font-size: 25px; /* Increased font size */
+    border-radius: 15px; /* More rounded edges */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.toolbar-container {
+    position: fixed;
+    overflow: hidden;
+}
+
+.left-toolbar-container {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 70px;
+}
+
+.right-toolbar-container {
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 70px;
+}
+
+.toolbar {
+    position: fixed;
+    background: linear-gradient(to bottom, #343a40, #515253);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 12px; /* Increased radius for softer corners */
+    box-shadow: 0 6px 8px rgba(31, 31, 31, 0.705), 0 -6px 8px rgba(31, 31, 31, 0.705), 6px 0 8px rgba(31, 31, 31, 0.705), -6px 0 8px rgba(31, 31, 31, 0.705);
+}
+
+.toolbar button {
+    position: relative;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 40px;
+    margin: 3px;
+    box-sizing: border-box;
+    border: 2px solid white;
+    border-radius: 8px; /* Rounded corners for buttons */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.toolbar button:hover {
+    background-color: #797575;
+    color: black;
+    border-color: #797575;
+    transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+
+.left-toolbar, .right-toolbar {
+    top: 0;
+    height: 100%;
+    width: 80px; /* Increase width */
+    flex-direction: column;
+    transform: translateX(-100%);
+}
+
+.right-toolbar {
+    right: 0;
+    transform: translateX(100%);
+}
+
+.bottom-toolbar-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 50%; /* Increase width */
+    height: 80px; /* Increase height */
+    transform: translateX(-50%);
+    overflow: hidden; /* Ensure the toolbar is hidden when off-screen */
+    border-top-left-radius: 12px; /* Rounded top left corner */
+    border-top-right-radius: 12px; /* Rounded top right corner */
+}
+
+.bottom-toolbar {
+    position: absolute;
+    bottom: -70px; /* Move the toolbar off the screen */
+    left: 0;
+    padding-top: 10px;
+    width: 100%;
+    height: 70px; /* Increase height */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    transition: transform 0.3s ease; /* Smooth transition */
+    border-top-left-radius: 12px; /* Rounded top left corner */
+    border-top-right-radius: 12px
+}
+
+.bottom-toolbar-container:hover .bottom-toolbar {
+    transform: translateY(-70px); /* Move the toolbar into view */
+}
+
+
+.left-toolbar-container:hover .left-toolbar {
+    transform: translateX(0); /* Move the left toolbar into view */
+}
+
+.right-toolbar-container:hover .right-toolbar {
+    transform: translateX(0); /* Move the right toolbar into view */
+}
+
+.top-buttons {
+    margin-bottom: 20px;
+    padding: 2px;
+    border: 2.5px solid rgb(12, 154, 12);
+    border-radius: 10px;
+}
+
+.btn:hover {
+    background-color: #797575 !important;
+    color: black !important;
+    border-color: #797575 !important; /* Ensure border color matches background */
+}
+
+.top-buttons .btn:hover {
+    background-color: #797575 !important; /* Standardize hover color */
+    color: black !important;
+    border-color: #797575 !important; /* Ensure border color matches background */
+}
+
+.left-toolbar .btn:hover, .right-toolbar .btn:hover, .bottom-toolbar .btn:hover {
+    background-color: #797575 !important; /* Standardize hover color */
+    color: black !important;
+    border-color: #797575 !important; /* Ensure border color matches background */
+}
+
+:root {
+    --toolbar-bg: #343a40;
+    --tooltip-bg: #343a40;
+    --tooltip-color: white;
+}
+
+.tooltip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--tooltip-bg);
+    color: var(--tooltip-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    font-size: 14px; /* Ensure consistent font size */
+}
+
+.toolbar button:hover .tooltip {
+    opacity: 1;
+}
+
+.bottom-tooltip {
+    position: absolute;
+    top: -35px; /* Adjust the distance from the button */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--tooltip-bg);
+    color: var(--tooltip-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    font-size: 14px; /* Ensure consistent font size */
+    font-family: Verdana, sans-serif; /* Apply specified font family */
+}
+
+.toolbar button:hover .bottom-tooltip {
+    opacity: 1;
+}
+
+.hover-area {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 150px;
+}
+
+.hover-area.left {
+    left: 0;
+}
+
+.hover-area.right {
+    right: 0;
+}
+
+
+.r-click {
+    display: none;
+    position: absolute;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.r-click-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.r-click-item label {
+    margin-right: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+.percentage-input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e0f7e0;
+    color: #333;
+    cursor: pointer;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.percentage-input:hover {
+    background-color: #d0f0d0;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.r-click-item label, .percentage-input {
+    font-family: 'Arial', sans-serif;
+}
+
+.r-click::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #f0f0f0;
+    filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.1));
+}
+
+

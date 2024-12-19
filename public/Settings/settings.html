@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calibration Page</title>
+    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="container-fluid vh-100 d-flex justify-content-center align-items-center bg-light">
+        <div class="container bg-white p-4 shadow rounded d-flex flex-column align-items-center">
+            <div class="row w-100">
+                <div class="col-12 col-md-3 toolbar d-flex flex-column">
+                    <button class="toolbar-button" onclick="showCalibration()">Calibration</button>
+                    <button class="toolbar-button" onclick="showViewingDistance()">Viewing Distance</button>
+                    <button class="toolbar-button" onclick="showSizeNotation()">Snellen Notation</button>
+                    <button class="toolbar-button" onclick="showCursorSelection()">Cursor Selection</button>
+                    <button class="toolbar-button" onclick="returnToEyeChart()">Back to Chart</button>
+                    <button id="video-tutorial-button" class="toolbar-button mt-auto" onclick="showVideoTutorial()">Video Tutorial</button>
+                </div>                
+                <div class="col-12 col-md-9 content d-flex justify-content-center align-items-center">
+                    <div id="calibration-box" class="box mb-4">
+                        <h2>Calibrate Display Screen</h2>
+                        <p>On the patient display screen, place a ruler flat against the screen and measure the length of the black bar below in millimeters.</p>
+                        <div class="black-bar d-flex justify-content-between align-items-center">
+                            <div class="arrow left-arrow">←</div>
+                            <div class="arrow right-arrow">→</div>
+                        </div>
+                        <label for="length">Enter the length in millimeters:</label>
+                        <input type="number" id="length" name="length" class="form-control mb-3" min="0">
+                        <button class="button-24" onclick="saveAndNextFromCalibration()">Save & Next</button>
+                    </div>
+                    <div id="viewing-distance-box" class="box mb-4" style="display: none;">
+                        <h2>Viewing Distance</h2>
+                        <div class="icons d-flex justify-content-center align-items-center mb-3">
+                            <div class="icon">
+                                <div class="square-screen" style="width: 24px; height: 24px; background-color: #000;"></div>
+                            </div>
+                            <div class="icon mx-2">→</div>
+                            <div class="icon">
+                                <i class="bi bi-person" style="font-size: 24px;"></i>
+                            </div>
+                        </div>
+                        <p>Set Display Viewing Distance</p>
+                        <input type="range" id="distance-range" name="distance" class="form-range mb-3" min="1" max="7" step="0.1" value="1" oninput="updateDistanceValue(this.value)">
+                        <div id="distance-value">1m</div>
+                        <p>Length in millimeters: <span id="saved-length"></span> mm</p>
+                        <button class="button-24" onclick="saveCalibrationAndNext()">Save & Next</button>
+                    </div>
+                    <div id="size-notation-box" class="box mb-4" style="display: none;">
+                        <h2>Size Notation</h2>
+                        <div class="notation-options d-flex justify-content-center mb-3">
+                            <div class="form-check mx-2">
+                                <input type="radio" id="metric" name="notation" value="metric" class="form-check-input">
+                                <label for="metric" class="form-check-label">Metric (6/6)</label>
+                            </div>
+                            <div class="form-check mx-2">
+                                <input type="radio" id="usc" name="notation" value="usc" class="form-check-input">
+                                <label for="usc" class="form-check-label">USC (20/20)</label>
+                            </div>
+                        </div>
+                        <button class="button-24" onclick="saveAndNextFromNotation()">Save & Next</button>
+                    </div>
+                    <div id="cursor-selection-box" class="box" style="display: none;">
+                        <h2>Cursor Selection</h2>
+                        <label for="cursor">Choose a cursor:</label>
+                        <select id="cursor" name="cursor" class="form-select mb-3">
+                            <option value="../Cursor/one.cur">Cursor One</option>
+                            <option value="../Cursor/two.cur">Cursor Two</option>
+                            <option value=../Cursor/three.cur">Cursor Three</option>
+                            <option value="../Cursor/four.cur">Cursor Four</option>
+                            <option value="../Cursor/five.cur">Cursor Five</option>
+                            <option value="../Cursor/six.cur">Cursor Six</option>
+                            <option value="../Cursor/seven.cur">Cursor Seven</option>
+                            <option value="../Cursor/eight.cur">Cursor Eight</option>
+                            <option value="../Cursor/nine.cur">Cursor Nine</option>
+                            <option value="../Cursor/ten.cur">Cursor Ten</option>
+                        </select>
+                        <button class="button-24" onclick="saveCursorSelection()">Save Cursor</button>
+                        <div class="text-center mt-3">
+                            <button class="button-24" onclick="returnToEyeChart()">Back to Chart</button>
+                        </div>
+                    </div>
+                    <div id="video-tutorial-box" class="box mb-4" style="display: none;">
+                        <video class="w-100" controls>
+                            <source src="../Settings/Eye Lounge Suite Final.mov" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <button class="button-24" onclick="returnToContent()">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="settings.js"></script>
+</body>
+</html>

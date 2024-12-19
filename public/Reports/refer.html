@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Letter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4b4b4b;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f5;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 150px;
+            margin-bottom: 30px; /* Space after the logo */
+        }
+        h1 {
+            margin-top: 30px;
+            margin-bottom: 50px;
+            color: #1a1a66;
+            text-align: center;
+            font-size: 22pt;
+        }
+        h2 {
+            color: #1a1a66;
+            font-size: 18pt;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #1a1a1a;
+        }
+        .form-group {
+            margin-bottom: 10px; /* Smaller margin between form groups */
+        }
+        .form-group label {
+            font-weight: bold;
+            margin-right: 10px;
+            display: left;
+            width: 150px; /* Align with text fields */
+        }
+        .form-group span {
+            font-size: 16px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .patient-details {
+            margin-bottom: 20px;
+        }
+        .patient-details div {
+            margin-bottom: 5px; /* Smaller margin between patient details */
+        }
+        .form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fafafa;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        .eye-test-date {
+            text-align: right;
+            width: auto;
+            font-size: 14px;
+            margin-top: 5px;
+            margin-right: 10px; /* Add margin to move date left */
+            display: inline-block;
+        }
+        .spectacle-prescription {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px; /* Adjust padding to make the height slightly higher */
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #05053fab;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .small-input {
+            width: 50px;
+            display: inline-block;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button-24 {
+            background-color: transparent;
+            background-image: linear-gradient(#11196e, #090953);
+            border: 0 solid #f2f2f2;
+            border-radius: 9999px;
+            box-shadow: rgba(82, 82, 82, 0.703) 0 4px 11px 0, rgba(72, 72, 72, 0.725) 0 1px 3px 0;
+            box-sizing: border-box;
+            color: #ffffff;
+            cursor: pointer;
+            display: inline-block;
+            font-family: Hind, system-ui, BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            font-weight: 600;
+            margin: 4px;
+            padding: 16px 24px;
+            text-align: center;
+            text-decoration: inherit;
+            text-wrap: nowrap;
+            transition: all .2s ease-out;
+            transition-behavior: normal;
+            white-space-collapse: collapse;
+            line-height: 1.15;
+        }
+
+        @media (min-width: 576px) {
+            .button-24 {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+        }
+
+        .button-24:after, .button-24:before, .div-flex-items-center-justify-center:after, .div-flex-items-center-justify-center:before, .span-flex-items-center-h-16-w-auto-mr-8-py-2-flex-grow-0-flex-shrink-0-fill-current:after, .span-flex-items-center-h-16-w-auto-mr-8-py-2-flex-grow-0-flex-shrink-0-fill-current:before, .svg-block-h-full:after, .svg-block-h-full:before {
+            border: 0 solid #24698f;
+            box-sizing: border-box;
+        }
+
+        .button-24:hover {
+            box-shadow: rgba(219, 221, 224, 0.629) 0 8px 22px 0, rgba(93, 100, 148, .2) 0 4px 6px 0;
+        }
+
+        .button-24:disabled {
+            cursor: not-allowed;
+            opacity: .5;
+        }
+
+        /* Hide buttons when printing or saving as PDF */
+        @media print {
+            .button-group {
+                display: none;
+            }
+        }
+    </style>
+    <!-- Include jsPDF and html2canvas libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Referral Letter to Ophthalmologist</h1>
+        <form id="referralForm">
+            <div class="form-group">
+                <label for="recipientName">Dear:</label>
+                <input type="text" id="recipientName" name="recipientName">
+            </div>
+            <div style="margin-bottom: 20px;"></div> <!-- Space after Dear line -->
+            <div class="patient-details">
+                <div>
+                    <label for="patientDetails"><b>Patient Details:</b></label>
+                </div>
+                <div>
+                    <span id="patientDetails"></span>
+                </div>
+                <div>
+                    <span id="patientContact"></span>
+                </div>
+                <div>
+                    <span id="patientEmail"></span>
+                </div>
+            </div>
+            <div class="spectacle-prescription">
+                <label for="spectaclePrescription"><b>Spectacle Prescription:</b></label>
+                <div class="eye-test-date">
+                    <b>Date of Eye Test:</b> <span id="formattedEyeTestDate"></span>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>VA</th>
+                        <th>Sphere</th>
+                        <th>/</th>
+                        <th>Cylinder</th>
+                        <th>x</th>
+                        <th>Axis</th>
+                        <th>Aided VA</th>
+                        <th>IOP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>OD</b></td>
+                        <td><input type="text" id="vaOD" name="vaOD" class="small-input"></td>
+                        <td><input type="text" id="sphereOD" name="sphereOD" class="small-input"></td>
+                        <td><b>/</b></td>
+                        <td><input type="text" id="cylinderOD" name="cylinderOD" class="small-input"></td>
+                        <td><b>x</b></td>
+                        <td><input type="text" id="axisOD" name="axisOD" class="small-input"></td>
+                        <td><input type="text" id="aidedVaOD" name="aidedVaOD" class="small-input"></td>
+                        <td><input type="text" id="iopOD" name="iopOD" class="small-input"></td>
+                    </tr>
+                    <tr>
+                        <td><b>OS</b></td>
+                        <td><input type="text" id="vaOS" name="vaOS" class="small-input"></td>
+                        <td><input type="text" id="sphereOS" name="sphereOS" class="small-input"></td>
+                        <td><b>/</b></td>
+                        <td><input type="text" id="cylinderOS" name="cylinderOS" class="small-input"></td>
+                        <td><b>x</b></td>
+                        <td><input type="text" id="axisOS" name="axisOS" class="small-input"></td>
+                        <td><input type="text" id="aidedVaOS" name="aidedVaOS" class="small-input"></td>
+                        <td><input type="text" id="iopOS" name="iopOS" class="small-input"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-group">
+                <label for="referralReason">Reason for Referral:</label>
+                <textarea id="referralReason" name="referralReason" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="additionalNotes">Additional Notes:</label>
+                <textarea id="additionalNotes" name="additionalNotes" rows="4"></textarea>
+            </div>
+            <p>Sincerely,</p>
+            <p><span id="practitionerName"></span><br>
+            <span id="practiceName"></span><br>
+            <span id="contactDetails"></span></p>
+            <div class="button-group">
+                <button type="button" class="button-24" id="savePdfButton" onclick="saveToPdf()">Save as PDF</button>
+                <button type="button" class="button-24" id="printButton" onclick="printPage()">Print</button>
+                <button type="button" class="button-24" id="backButton" onclick="goBack()">Back</button>
+            </div>  
+        </form>
+    </div>
+
+    <script>
+        // Populate the form with test card data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectedTestCard = JSON.parse(localStorage.getItem('selectedTestCard'));
+            const patientName = localStorage.getItem('patientName');
+            const patientSurname = localStorage.getItem('patientSurname');
+            const patientId = localStorage.getItem('patientId');
+            const patientContact = localStorage.getItem('patientContact');
+            const patientEmail = localStorage.getItem('patientEmail');
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            function formatDate(dateString) {
+                const options = { day: '2-digit', month: 'long', year: 'numeric' };
+                return new Date(dateString).toLocaleDateString('en-US', options);
+            }
+
+            if (selectedTestCard) {
+                document.getElementById('patientDetails').textContent = `${patientName} ${patientSurname} (ID: ${patientId})`;
+                document.getElementById('formattedEyeTestDate').textContent = formatDate(selectedTestCard.date);
+                document.getElementById('vaOD').value = selectedTestCard.scRE;
+                document.getElementById('sphereOD').value = selectedTestCard.spectacles_OD_sphere;
+                document.getElementById('cylinderOD').value = selectedTestCard.spectacles_OD_cylinder;
+                document.getElementById('axisOD').value = selectedTestCard.spectacles_OD_axis;
+                document.getElementById('aidedVaOD').value = selectedTestCard.ccRE;
+                document.getElementById('iopOD').value = selectedTestCard.iop_OD;
+                document.getElementById('vaOS').value = selectedTestCard.scLE;
+                document.getElementById('sphereOS').value = selectedTestCard.spectacles_OS_sphere;
+                document.getElementById('cylinderOS').value = selectedTestCard.spectacles_OS_cylinder;
+                document.getElementById('axisOS').value = selectedTestCard.spectacles_OS_axis;
+                document.getElementById('aidedVaOS').value = selectedTestCard.ccLE;
+                document.getElementById('iopOS').value = selectedTestCard.iop_OS;
+                document.getElementById('referralReason').value = selectedTestCard.referralReason;
+                document.getElementById('additionalNotes').value = selectedTestCard.notes;
+            }
+
+            if (patientContact) {
+                document.getElementById('patientContact').textContent = patientContact;
+            }
+
+            if (patientEmail) {
+                document.getElementById('patientEmail').textContent = patientEmail;
+            }
+
+            if (user) {
+                document.getElementById('practitionerName').textContent = `${user.name} ${user.surname}`;
+                document.getElementById('practiceName').textContent = user.practiceName;
+                document.getElementById('contactDetails').textContent = user.contactDetails;
+            }
+        });
+
+        // Function to navigate back to /Patient/patient.html and simulate clicking the Patient Wizard button
+        function goBack() {
+            // Set a flag in localStorage
+            localStorage.setItem('clickPatientWizard', 'true');
+
+            // Navigate to the target page
+            window.location.href = '../Patient/patient.html';
+        }
+
+        // Function to print the page
+        function printPage() {
+            window.print(); // Open the print dialog to print the page
+        }
+
+        // Function to save the page content as PDF
+        async function saveToPdf() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Temporarily hide the buttons
+            document.querySelector('.button-group').style.display = 'none';
+
+            // Use html2canvas to capture the content of the container
+            const container = document.querySelector('.container');
+            html2canvas(container).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                doc.addImage(imgData, 'PNG', 10, 10, 190, 0);
+                doc.save('Referral_Letter.pdf');
+            }).catch(error => {
+                console.error('Error generating PDF:', error);
+                alert('Failed to generate PDF.');
+            }).finally(() => {
+                // Show the buttons again
+                document.querySelector('.button-group').style.display = 'flex';
+            });
+        }
+    </script>
+
+</body>
+</html>

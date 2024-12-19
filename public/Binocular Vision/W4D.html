@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Cross Icons</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="../Cursor/cursor.js"></script>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+        .icon, .diamond, .circle {
+            font-weight: bold;
+            transition: transform 0.2s, margin 0.2s, top 0.2s, bottom 0.2s; /* Smooth transition for zoom, margin, and position */
+            transition: transform 0.5s ease, margin 0.5s ease, top 0.5s ease, bottom 0.5s ease;
+        }
+
+        .icon {
+            color: rgb(2, 224, 2);
+            font-size: 70px; 
+            margin: 0 100px; 
+        }
+        .diamond {
+            color: red;
+            font-size: 45px; 
+            margin: 0 50px; 
+            position: absolute;
+            top: 25%; 
+        }
+        .circle {
+            color: white;
+            font-size: 42px; /* Initial size */
+            position: absolute;
+            bottom: 25%;
+        }
+        .red-cross {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px; 
+            height: 100px; 
+            transform: translate(-50%, -50%);
+        }
+        .red-cross::before, .red-cross::after {
+            content: '';
+            position: absolute;
+            background-color: red;
+        }
+        .red-cross::before {
+            width: 100%;
+            height: 5px; /* Thinner crossbar */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .red-cross::after {
+            width: 5px; /* Thinner crossbar */
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .green-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px; /* Increased size */
+            height: 200px; /* Increased size */
+            border: 5px solid green;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .green-circle.small {
+            width: 170px; /* Increased size */
+            height: 170px; /* Increased size */
+        }
+        .banner {
+            position: fixed;
+            bottom: 40px; /* Adjust this value to move the banner higher */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 85px; /* Increased height */
+            background: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(2,0,36,1) 20%, rgba(9,9,121,1) 30%, rgba(0,212,255,1) 70%, rgba(2,0,36,1) 80%, rgba(2,0,36,0) 100%); /* More transparent edges */
+            color: white;
+            text-align: center;
+            padding: 20px; /* Increased padding */
+            font-size: 25px; /* Increased font size */
+            border-radius: 15px; /* More rounded edges */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .toolbar-container {
+            position: fixed;
+            overflow: hidden;
+        }
+
+        .left-toolbar-container {
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 70px;
+        }
+
+        .right-toolbar-container {
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 70px;
+        }
+
+        .toolbar {
+            position: fixed;
+            background: linear-gradient(to bottom, #343a40, #515253);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border-radius: 12px; /* Increased radius for softer corners */
+            box-shadow: 0 6px 8px rgba(31, 31, 31, 0.705), 0 -6px 8px rgba(31, 31, 31, 0.705), 6px 0 8px rgba(31, 31, 31, 0.705), -6px 0 8px rgba(31, 31, 31, 0.705);
+        }
+
+        .toolbar button {
+            position: relative;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 40px;
+            margin: 3px;
+            box-sizing: border-box;
+            border: 2px solid white;
+            border-radius: 8px; /* Rounded corners for buttons */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .toolbar button:hover {
+            background-color: #797575;
+            color: black;
+            border-color: #797575;
+            transform: scale(1.05); /* Slight scaling effect on hover */
+        }
+
+
+        .left-toolbar, .right-toolbar {
+            top: 0;
+            height: 100%;
+            width: 80px; /* Increase width */
+            flex-direction: column;
+            transform: translateX(-100%);
+        }
+
+        .right-toolbar {
+            right: 0;
+            transform: translateX(100%);
+        }
+
+        .bottom-toolbar-container {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            width: 50%; /* Increase width */
+            height: 80px; /* Increase height */
+            transform: translateX(-50%);
+            overflow: hidden; /* Ensure the toolbar is hidden when off-screen */
+            border-top-left-radius: 12px; /* Rounded top left corner */
+            border-top-right-radius: 12px; /* Rounded top right corner */
+        }
+
+        .bottom-toolbar {
+            position: absolute;
+            bottom: -70px; /* Move the toolbar off the screen */
+            left: 0;
+            padding-top: 10px;
+            width: 100%;
+            height: 70px; /* Increase height */
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            transition: transform 0.3s ease; /* Smooth transition */
+            border-top-left-radius: 12px; /* Rounded top left corner */
+            border-top-right-radius: 12px
+        }
+
+        .bottom-toolbar-container:hover .bottom-toolbar {
+            transform: translateY(-70px); /* Move the toolbar into view */
+        }
+
+
+        .left-toolbar-container:hover .left-toolbar {
+            transform: translateX(0); /* Move the left toolbar into view */
+        }
+
+        .right-toolbar-container:hover .right-toolbar {
+            transform: translateX(0); /* Move the right toolbar into view */
+        }
+
+        .top-buttons {
+            margin-bottom: 20px;
+            padding: 2px;
+            border: 2.5px solid rgb(12, 154, 12);
+            border-radius: 10px;
+        }
+
+        .btn:hover {
+            background-color: #797575 !important;
+            color: black !important;
+            border-color: #797575 !important; /* Ensure border color matches background */
+        }
+
+        .top-buttons .btn:hover {
+            background-color: #797575 !important; /* Standardize hover color */
+            color: black !important;
+            border-color: #797575 !important; /* Ensure border color matches background */
+        }
+
+        .left-toolbar .btn:hover, .right-toolbar .btn:hover, .bottom-toolbar .btn:hover {
+            background-color: #797575 !important; /* Standardize hover color */
+            color: black !important;
+            border-color: #797575 !important; /* Ensure border color matches background */
+        }
+
+        :root {
+            --toolbar-bg: #343a40;
+            --tooltip-bg: #343a40;
+            --tooltip-color: white;
+        }
+
+        .tooltip {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--tooltip-bg);
+            color: var(--tooltip-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .toolbar button:hover .tooltip {
+            opacity: 1;
+        }
+
+        .bottom-tooltip {
+            position: absolute;
+            top: -35px; /* Adjust the distance from the button */
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--tooltip-bg);
+            color: var(--tooltip-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            font-size: 14px; /* Match the font size with the existing tooltips */
+        }
+
+        .toolbar button:hover .bottom-tooltip {
+            opacity: 1;
+        }
+
+        .hover-area {
+            position: fixed;
+            top: 0;
+            height: 100%;
+            width: 150px;
+        }
+
+        .hover-area.left {
+            left: 0;
+        }
+
+        .hover-area.right {
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="banner" class="banner">Binocular Vision</div>
+    <div class="toolbar-container left-toolbar-container">
+        <div class="toolbar left-toolbar">
+            <button id="VA" aria-label="VA Chart" class="btn btn-light mb-2 border" onclick="navigateToFile('../VA Charts/VA CHARTS.html')">
+                <img src="../Icons/monitor.png" alt="VA Chart Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">VA Chart</div>
+            </button>
+            <button id="astigmatism" aria-label="Astigmatism" class="btn btn-light mb-2 border" onclick="navigateToFile('../Astigmatism/JCC.html')">
+                <img src="../Icons/medical.png" alt="Astigmatism Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Astigmatism</div>
+            </button>
+            <button id="duochrome" aria-label="Duochrome" class="btn btn-light mb-2 border" onclick="navigateToFile('../Duochrome/Butterfly.html')">
+                <img src="../Icons/right-arrow.png" alt="Duochrome Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Duochrome</div>
+            </button>
+            <button id="binoculartests" aria-label="Binocular Test" class="btn btn-light mb-2 border" onclick="navigateToFile('../Binocular Vision/W4D.html')">
+                <img src="../Icons/eye-test.png" alt="Binocular Test Icon" style="width: 50px; height: 50px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Binocular Test</div>
+            </button>
+            <button id="colourvision" aria-label="Colour Vision" class="btn btn-light mb-2 border" onclick="navigateToFile('../Colour Vision/CV.html')">
+                <img src="../Icons/color.png" alt="Colour Vision Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Colour Vision</div>
+            </button>
+            <button id="contrastsensitivity" aria-label="Contrast Sensitivity" class="btn btn-light mb-2 border" onclick="navigateToFile('../CS/CS.html')">
+                <img src="../Icons/contrast.png" alt="Contrast Sensitivity Icon" style="width: 30px; height: 30px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Contrast Sensitivity</div>
+            </button>            
+            <button id="fixationtargets" aria-label="Fixation Target" class="btn btn-light mb-2 border" onclick="navigateToFile('../Fixation target/FT.html')">
+                <img src="../Icons/image.png" alt="Fixation Target Icon" style="width: 35px; height: 35px; filter: invert(100%);">
+                <div class="tooltip" style="left: 100%;">Fixation Target</div>
+            </button>  
+        </div>
+    <div class="toolbar-container right-toolbar-container">
+        <div class="toolbar right-toolbar">
+            <button id="w4d" class="btn btn-primary mb-2" aria-label="Worth-4-Dot">
+                <i class="fas fa-eye"></i>
+                <div class="tooltip" style="right: 100%;">Worth-4-Dot</div>
+            </button>
+            <button id="schrober" class="btn btn-secondary mb-2" aria-label="Schrober Test">
+                <i class="fas fa-eye"></i>
+                <div class="tooltip" style="right: 100%;">Schrober Test</div>
+            </button>
+        </div>
+    </div>
+   <div class="toolbar-container bottom-toolbar-container">
+        <div class="toolbar bottom-toolbar">
+            <button id="education" aria-label="Education" class="btn btn-light mb-2 border" onclick="navigateToFile('../Education/education.html')">
+                <img src="../Icons/reading.png" alt="Education Icon" style="width: 35px; height: 35px; filter: invert(100%);">
+                <div class="bottom-tooltip">Education</div>
+            </button>
+            <button id="patient" aria-label="Patient" class="btn btn-light mb-2 border" onclick="navigateToFile('../Patient/patient.html')">
+                <img src="../Icons/medical-record.png" alt="Patient Icon" style="width: 35px; height: 35px; filter: invert(100%);">
+                <div class="bottom-tooltip">Patient</div>
+            </button>          
+            <button id="settings" aria-label="Settings" class="btn btn-light mb-2 border" onclick="navigateToFile('../Settings/settings.html')">
+                <img src="../Icons/control.png" alt="Settings Icon" style="width: 31px; height: 31px; filter: invert(100%);">
+                <div class="bottom-tooltip">Settings</div>
+            </button>
+            <button id="account" aria-label="Your Account" class="btn btn-light mb-2 border" onclick="navigateToFile('../Account/account.html')">
+                <img src="../Icons/man.png" alt="Your Account Icon" style="width: 40px; height: 40px; filter: invert(100%);">
+                <div class="bottom-tooltip">Your Account</div>
+            </button>            
+        </div>
+    </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+  const zoomLevels = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5];
+        const marginLevels = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75]; // Different margins for different zoom levels
+        const verticalPositions = [
+            { top: '34%', bottom: '34%' }, // Adjusted positions
+            { top: '34%', bottom: '32%' },
+            { top: '34%', bottom: '30%' },
+            { top: '34%', bottom: '28%' },
+            { top: '34%', bottom: '26%' },
+            { top: '34%', bottom: '24%' },
+            { top: '34%', bottom: '22%' },
+            { top: '34%', bottom: '20%' },
+            { top: '34%', bottom: '18%' },
+            { top: '34%', bottom: '16%' },
+            { top: '34%', bottom: '14%' }
+        ]; // Different vertical positions for different zoom levels
+        let currentZoomIndex = 5; // Start at the middle zoom level
+
+        document.getElementById('w4d').addEventListener('click', () => {
+            // Remove existing elements
+            document.querySelectorAll('.red-cross, .green-circle').forEach(el => el.remove());
+            document.querySelectorAll('.icon, .diamond, .circle').forEach(el => el.remove());
+
+            // Create and append the icons
+            const plusIcon1 = document.createElement('i');
+            plusIcon1.className = 'icon fas fa-plus';
+
+            const diamondIcon = document.createElement('i');
+            diamondIcon.className = 'diamond fas fa-diamond';
+
+            const circleIcon = document.createElement('i');
+            circleIcon.className = 'circle fas fa-circle';
+
+            const plusIcon2 = document.createElement('i');
+            plusIcon2.className = 'icon fas fa-plus';
+
+            document.body.appendChild(plusIcon1);
+            document.body.appendChild(diamondIcon);
+            document.body.appendChild(circleIcon);
+            document.body.appendChild(plusIcon2);
+
+            const icons = document.querySelectorAll('.icon, .diamond, .circle');
+
+            const updateIconPositions = () => {
+                icons.forEach(icon => {
+                    icon.style.transform = `scale(${zoomLevels[currentZoomIndex]})`;
+                    icon.style.margin = `${marginLevels[currentZoomIndex]}px`;
+                });
+
+                // Calculate the movement amounts
+                const diamondMovementAmount = currentZoomIndex * 1.9;
+                const circleMovementAmount = currentZoomIndex * 0.2; // Smaller increment for the circle
+
+                // Update the position of the diamond independently
+                const diamond = document.querySelector('.diamond');
+                diamond.style.top = `${parseFloat(verticalPositions[currentZoomIndex].top) - diamondMovementAmount}%`;
+
+                // Update the position of the circle to move in the opposite direction with smaller increments
+                const circle = document.querySelector('.circle');
+                circle.style.bottom = `${parseFloat(verticalPositions[currentZoomIndex].bottom) - circleMovementAmount}%`;
+            };
+
+            updateIconPositions();
+
+            window.addEventListener('wheel', (event) => {
+                if (event.deltaY < 0) {
+                    // Zoom in (make larger)
+                    currentZoomIndex = Math.min(currentZoomIndex + 1, zoomLevels.length - 1);
+                } else {
+                    // Zoom out (make smaller)
+                    currentZoomIndex = Math.max(currentZoomIndex - 1, 0);
+                }
+                updateIconPositions();
+            });
+        });
+
+
+        document.getElementById('schrober').addEventListener('click', () => {
+    // Remove existing elements
+    document.querySelectorAll('.icon, .diamond, .circle').forEach(el => el.remove());
+    document.querySelectorAll('.red-cross, .green-circle').forEach(el => el.remove());
+
+    // Create and append the red cross and green circles
+    const cross = document.createElement('div');
+    cross.className = 'red-cross';
+    cross.style.position = 'absolute';
+    cross.style.left = '50%';
+    cross.style.top = '50%';
+    cross.style.transform = `translate(-50%, -50%) scale(${zoomLevels[currentZoomIndex]})`;
+    cross.style.transition = 'transform 0.2s ease-in-out';
+
+    const circle1 = document.createElement('div');
+    circle1.className = 'green-circle';
+    circle1.style.position = 'absolute';
+    circle1.style.left = '50%';
+    circle1.style.top = '50%';
+    circle1.style.transform = `translate(-50%, -50%) scale(${zoomLevels[currentZoomIndex]})`;
+    circle1.style.transition = 'transform 0.2s ease-in-out';
+
+    const circle2 = document.createElement('div');
+    circle2.className = 'green-circle small';
+    circle2.style.position = 'absolute';
+    circle2.style.left = '50%';
+    circle2.style.top = '50%';
+    circle2.style.transform = `translate(-50%, -50%) scale(${zoomLevels[currentZoomIndex]})`;
+    circle2.style.transition = 'transform 0.2s ease-in-out';
+
+    document.body.appendChild(cross);
+    document.body.appendChild(circle1);
+    document.body.appendChild(circle2);
+
+    const schroberElements = document.querySelectorAll('.red-cross, .green-circle');
+
+    schroberElements.forEach(element => {
+        element.style.transformOrigin = 'center';
+    });
+
+    window.addEventListener('wheel', (event) => {
+        if (event.deltaY < 0) {
+            // Zoom out (make smaller)
+            currentZoomIndex = Math.max(currentZoomIndex - 1, 0);
+        } else {
+            // Zoom in (make larger)
+            currentZoomIndex = Math.min(currentZoomIndex + 1, zoomLevels.length - 1);
+        }
+        schroberElements.forEach(element => {
+            element.style.transform = `translate(-50%, -50%) scale(${zoomLevels[currentZoomIndex]})`;
+        });
+    });
+});
+
+    window.onload = function() {
+        document.getElementById('w4d').click();
+    };
+
+    function navigateToFile(path) {
+    window.location.href = path;
+}
+
+const banner = document.getElementById('banner');
+    banner.style.opacity = 1;
+    setTimeout(() => {
+        banner.style.opacity = 0;
+    }, 2000);
+    </script>
+</body>
+</html>

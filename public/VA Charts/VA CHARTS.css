@@ -1,0 +1,467 @@
+@font-face {
+    font-family: 'Optician Sans';
+    src: url('../fonts/optician-sans.regular.otf') format('opentype');
+}
+body {
+    font-family: 'Optician Sans', sans-serif;
+    font-feature-settings: 'ss02' 1;
+    cursor: url('../Cursor/one.cur'), auto;
+}
+
+:root {
+    --initial-margin: 20px;
+    --decrement: 2px;
+}
+
+#chart {
+    padding-left: 80px; /* Adjust the padding as needed */
+    padding-right: 80px; /* Adjust the padding as needed */
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the rows horizontally */
+}
+
+#chart .row {
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center;
+    font-size: 4.0em;
+    margin: var(--initial-margin) 0;
+    position: relative;
+    overflow: hidden;
+    width: 100%; /* Ensure the row takes up the full width */
+    opacity: 0; /* Initial opacity for fade-in effect */
+    transform: translateY(20px); /* Initial position for slight slide effect */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Transition for both opacity and position */
+}
+
+#chart .row.show {
+    opacity: 1; /* Final opacity for fade-in effect */
+    transform: translateY(0); /* Final position for slide effect */
+}
+
+
+#chart .row .letters {
+    display: flex;
+    justify-content: center; /* Center the letters horizontally */
+    align-items: center;
+    text-align: center;
+    position: relative;
+    width: auto; /* Adjust width to fit content */
+}
+
+#chart .row::before,
+#chart .row::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, white 50%, #d3d3d3); /* Adjust gradient stops */
+    transition: transform 0.6s ease; /* Slower transition */
+    z-index: -1; /* Ensure the pseudo-elements are behind the text */
+}
+
+#chart .row::before {
+    left: 50%;
+    transform: scaleX(0);
+    transform-origin: left;
+    border-top-right-radius: 30px; /* Rounded right edge */
+    border-bottom-right-radius: 30px; /* Rounded right edge */
+    background: linear-gradient(to right, white 50%, #a4f296); /* Soft green */
+}
+
+#chart .row::after {
+    right: 50%;
+    transform: scaleX(0);
+    transform-origin: right;
+    border-top-left-radius: 30px; /* Rounded left edge */
+    border-bottom-left-radius: 30px; /* Rounded left edge */
+    background: linear-gradient(to left, white 50%, #90ee90); /* Soft green */
+}
+
+#chart .row:hover::before,
+#chart .row:hover::after {
+    transform: scaleX(1);
+    border-bottom: 5px solid #88e396; /* Solid dark green margin at the bottom */
+}
+
+.decimal, .metric {
+    font-family: Verdana, sans-serif;
+    color: red;
+    font-size: 20px; /* Reduce font size for better visibility */
+    letter-spacing: 1px;  
+    position: absolute; /* Position them absolutely within the chart */
+}
+
+
+.decimal {
+    left: 0; /* Align to the left */
+}
+
+.metric {
+    right: 0; /* Align to the right */
+}
+
+.horizontal-header, .vertical-header {
+    position: relative;
+    width: 100%; /* Ensure it takes the full width */
+}
+
+.horizontal-header .decimal, .vertical-header .decimal {
+    font-family: Verdana, sans-serif;
+    position: absolute;
+    top: 0;
+    left: 0; /* Move to the far left */
+    font-size: 35px; /* Adjust font size if needed */
+    color: red; /* Keep the color red */
+}
+
+.horizontal-header .metric, .vertical-header .metric {
+    font-family: Verdana, sans-serif;
+    position: absolute;
+    top: 0;
+    right: 0; /* Move to the far right */
+    font-size: 35px; /* Adjust font size if needed */
+    color: red; /* Keep the color red */
+}
+
+.chart-row {
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+}
+
+.letters {
+    text-align: center;
+    display: flex;
+    justify-content: center; /* Center the letters horizontally */
+    position: relative;
+}
+
+.letters span {
+    position: relative;
+    margin: 0 0.4em; /* Adjust margin to ensure spacing is equal to letter width */
+}
+
+.letter-spacing {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+/* New classes for the second-to-last and third-to-last rows */
+#chart .row.second-to-last {
+    margin-bottom: 5mm !important; /* Increase the margin for more space */
+}
+
+#chart .row.third-to-last {
+    margin-bottom: 4mm !important; /* Increase the margin for more space */
+}
+
+.rotate-90 {
+    transform: rotate(90deg);
+}
+
+.rotate-180 {
+    transform: rotate(180deg);
+}
+
+.rotate-270 {
+    transform: rotate(270deg);
+}
+
+.hover-area {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 40px; /* Width of the hover area */
+    height: 100vh; /* Full vertical height */
+    cursor: pointer;
+    z-index: 1000; /* Ensure it is on top */
+}
+
+.toolbar-container {
+    position: fixed;
+    overflow: hidden;
+}
+
+.left-toolbar-container {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 70px;
+}
+
+.right-toolbar-container {
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 70px;
+}
+
+.toolbar {
+    position: fixed;
+    background: linear-gradient(to bottom, #343a40, #515253);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 12px; /* Increased radius for softer corners */
+    box-shadow: 0 6px 8px rgba(31, 31, 31, 0.705), 0 -6px 8px rgba(31, 31, 31, 0.705), 6px 0 8px rgba(31, 31, 31, 0.705), -6px 0 8px rgba(31, 31, 31, 0.705);
+}
+
+.toolbar button {
+    position: relative;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 40px;
+    margin: 3px;
+    box-sizing: border-box;
+    border: 2px solid white;
+    border-radius: 8px; /* Rounded corners for buttons */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.toolbar button:hover {
+    background-color: #797575;
+    color: black;
+    border-color: #797575;
+    transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+
+.left-toolbar, .right-toolbar {
+    top: 0;
+    height: 100%;
+    width: 80px; /* Increase width */
+    flex-direction: column;
+    transform: translateX(-100%);
+}
+
+.right-toolbar {
+    right: 0;
+    transform: translateX(100%);
+}
+
+.bottom-toolbar-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 50%; /* Increase width */
+    height: 80px; /* Increase height */
+    transform: translateX(-50%);
+    overflow: hidden; /* Ensure the toolbar is hidden when off-screen */
+    border-top-left-radius: 12px; /* Rounded top left corner */
+    border-top-right-radius: 12px; /* Rounded top right corner */
+}
+
+.bottom-toolbar {
+    position: absolute;
+    bottom: -70px; /* Move the toolbar off the screen */
+    left: 0;
+    padding-top: 10px;
+    width: 100%;
+    height: 70px; /* Increase height */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    transition: transform 0.3s ease; /* Smooth transition */
+    border-top-left-radius: 12px; /* Rounded top left corner */
+    border-top-right-radius: 12px
+}
+
+.bottom-toolbar-container:hover .bottom-toolbar {
+    transform: translateY(-70px); /* Move the toolbar into view */
+}
+
+
+.left-toolbar-container:hover .left-toolbar {
+    transform: translateX(0); /* Move the left toolbar into view */
+}
+
+.right-toolbar-container:hover .right-toolbar {
+    transform: translateX(0); /* Move the right toolbar into view */
+}
+
+.top-buttons {
+    margin-bottom: 20px;
+    padding: 2px;
+    border: 2.5px solid rgb(12, 154, 12);
+    border-radius: 10px;
+}
+
+.btn:hover {
+    background-color: #797575 !important;
+    color: black !important;
+    border-color: #797575 !important; /* Ensure border color matches background */
+}
+
+.top-buttons .btn:hover {
+    background-color: #797575 !important; /* Standardize hover color */
+    color: black !important;
+    border-color: #797575 !important; /* Ensure border color matches background */
+}
+
+.left-toolbar .btn:hover, .right-toolbar .btn:hover, .bottom-toolbar .btn:hover {
+    background-color: #797575 !important; /* Standardize hover color */
+    color: black !important;
+    border-color: #797575 !important; /* Ensure border color matches background */
+}
+
+:root {
+    --toolbar-bg: #343a40;
+    --tooltip-bg: #343a40;
+    --tooltip-color: white;
+}
+
+.tooltip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--tooltip-bg);
+    color: var(--tooltip-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    font-size: 14px; /* Ensure consistent font size */
+}
+
+.toolbar button:hover .tooltip {
+    opacity: 1;
+}
+
+.bottom-tooltip {
+    position: absolute;
+    top: -35px; /* Adjust the distance from the button */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--tooltip-bg);
+    color: var(--tooltip-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    font-size: 14px; /* Ensure consistent font size */
+    font-family: Verdana, sans-serif; /* Apply specified font family */
+}
+
+.toolbar button:hover .bottom-tooltip {
+    opacity: 1;
+}
+
+.hover-area {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 150px;
+}
+
+.hover-area.left {
+    left: 0;
+}
+
+.hover-area.right {
+    right: 0;
+}
+
+
+.banner {
+    position: fixed;
+    bottom: 40px; /* Adjust this value to move the banner higher */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 85px; /* Increased height */
+    background: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(2,0,36,1) 20%, rgba(9,9,121,1) 30%, rgba(0,212,255,1) 70%, rgba(2,0,36,1) 80%, rgba(2,0,36,0) 100%); /* More transparent edges */
+    color: white;
+    text-align: center;
+    padding: 20px; /* Increased padding */
+    font-size: 25px; /* Increased font size */
+    border-radius: 15px; /* More rounded edges */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.R-click {
+    display: none;
+    position: absolute;
+    background-color: #f0f0f0; /* Light gray background */
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgb(161, 217, 169);
+    border-radius: 8px;
+    padding: 5px; /* Reduced padding */
+    z-index: 1000;
+    display: flex;
+    width: 110px; /* Smaller width */
+}
+
+.R-click .toolbar-row {
+    display: flex;
+    flex-direction: column;
+    margin-right: 5px; /* Reduced space between columns */
+}
+
+.R-click .toolbar-row h4 {
+    margin: 0;
+    padding: 5px; /* Reduced padding */
+    background-color: #9a9999; /* Darker gray for headings */
+    border-bottom: 1px solid #bbb;
+    text-align: center;
+    border-radius:5px 5px 5px 5px;
+    font-size: 1.0em; /* Slightly smaller font size */
+    color: #333;
+}
+
+.R-click button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px; /* Reduced padding */
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    transition: background-color 0.3s ease;
+    font-size: 0.9em; /* Slightly smaller font size */
+    color: #333;
+}
+
+.R-click button:hover {
+    background-color: #d3d0d0; 
+}
+
+.R-click .metric-value {
+    margin-left: 5px; /* Reduced space between button and metric value */
+    background-color: #d3d3d3; /* Darker gray for metric value */
+    padding: 2px 5px; /* Reduced padding */
+    border-radius: 4px;
+    font-size: 0.8em; /* Slightly smaller font size */
+    color: #333;
+    margin-right: 0; /* Removed extra margin on the right */
+}
+
+.R-click .empty-column {
+    width: 40px; /* Adjust the width as needed */
+}
+
+
+
+
+
